@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="match_parent"
+	android:orientation="vertical" android:background="#fff0f0f0">
+	<ScrollView android:id="@+id/scrollView1"
+		android:layout_width="match_parent" android:layout_height="0dip"
+		android:layout_weight="1">
+		<LinearLayout android:layout_width="match_parent"
+			android:id="@+id/linearLayout1" android:orientation="vertical" android:layout_height="fill_parent">
+			<TextView android:layout_height="wrap_content" android:text="TextView"
+				android:layout_gravity="left" android:gravity="center_horizontal"
+				android:layout_weight="80" android:textStyle="bold" android:id="@+id/txtRecipeTitle"
+				android:layout_width="match_parent"></TextView>			
+			<TextView android:id="@+id/textView1" android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:text="@string/products"
+				android:layout_marginTop="5px" android:textStyle="bold"
+				android:layout_marginLeft="5dip"></TextView>
+			<TextView android:id="@+id/txtRecipeProducts"
+				android:layout_width="match_parent" android:layout_height="wrap_content"
+				android:layout_marginLeft="5dip"></TextView>
+			<TextView android:id="@+id/textView2" android:layout_height="wrap_content"
+				android:text="@string/making" android:layout_width="wrap_content"
+				android:layout_marginTop="5px" android:textStyle="bold"
+				android:layout_marginLeft="5dip"></TextView>
+			<TextView android:text="" android:id="@+id/txtRecipeDescription"
+				android:layout_height="wrap_content" android:layout_width="match_parent"
+				android:layout_marginTop="5px" android:layout_marginLeft="5dip"></TextView>
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

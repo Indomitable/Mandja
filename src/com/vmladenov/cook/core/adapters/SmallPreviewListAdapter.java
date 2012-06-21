@@ -42,13 +42,7 @@ public class SmallPreviewListAdapter extends ArrayAdapter<SmallPreview> {
         if (preview != null) {
             TextView title = (TextView) v.findViewById(R.id.txtTitle);
             final ImageView image = (ImageView) v.findViewById(R.id.smallImage);
-            TextView tvDescription = (TextView) v.findViewById(R.id.txtAddedOn);
             title.setText(preview.title);
-            if (preview.description != null)
-                tvDescription.setText(preview.description);
-            else {
-                tvDescription.setVisibility(View.INVISIBLE);
-            }
             if (preview.cachedImage != null)
                 image.setImageBitmap(preview.cachedImage);
             else if (preview.imageUrl != null) {

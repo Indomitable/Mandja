@@ -3,10 +3,21 @@
 	android:layout_width="match_parent" android:layout_height="match_parent"
 	android:layout_marginBottom="5px" android:paddingBottom="10px"
 	android:paddingTop="10px">
-	<ImageView android:id="@+id/smallImage"
-		android:layout_width="60dip" android:layout_height="60dip" android:layout_marginLeft="5dip"></ImageView>
-	<LinearLayout android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/linearLayout1" android:layout_toRightOf="@+id/smallImage" android:layout_width="0dip" android:layout_weight="1">
-		<TextView android:textSize="15dip" android:text="TextView" android:layout_marginLeft="2px" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textStyle="bold" android:id="@+id/txtTitle"></TextView>
-		<TextView android:paddingTop="1px" android:text="TextView" android:layout_marginLeft="2px" android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/txtAddedOn"></TextView>
-	</LinearLayout>
+
+	<ImageView
+	    android:id="@+id/smallImage"
+	    android:layout_width="60dip"
+	    android:layout_height="60dip"
+	    android:layout_gravity="center_vertical"
+	    android:layout_marginLeft="5dip" >
+</ImageView>
+
+	<TextView
+	    android:id="@+id/txtTitle"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="2px"
+	    android:text="TextView"
+	    android:textSize="15dip"
+	    android:textStyle="bold" android:layout_gravity="center_vertical"/>
 </LinearLayout>

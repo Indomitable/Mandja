@@ -2,15 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.vmladenov.cook" android:versionCode="9"
 	android:versionName="1.8">
-	<uses-sdk android:targetSdkVersion="8" android:minSdkVersion="8"
-		android:maxSdkVersion="10"></uses-sdk>
+	<uses-sdk android:targetSdkVersion="8" android:minSdkVersion="8"></uses-sdk>
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
 
 	<application android:icon="@drawable/icon" android:label="@string/app_name"
-		android:theme="@android:style/Theme.Light" android:name="CustomApplication"
-		android:debuggable="true">
+		android:theme="@android:style/Theme.Light" android:name="CustomApplication">
 		<activity android:name="com.vmladenov.cook.ui.recipes.LatestRecipesActivity"
 			android:label="@string/latestRecipesLong" android:configChanges="keyboard|orientation">
 		</activity>

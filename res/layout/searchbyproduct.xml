@@ -6,7 +6,7 @@
 		android:text="@string/addProductOrSpice" android:layout_width="wrap_content"
 		android:textStyle="bold"></TextView>
 	<LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout1">
-		<AutoCompleteTextView android:layout_height="wrap_content" android:id="@+id/txtSearchProduct" android:layout_width="fill_parent" android:maxLines="1" android:layout_weight="1"></AutoCompleteTextView>
+		<AutoCompleteTextView android:layout_height="wrap_content" android:id="@+id/txtSearchProduct" android:layout_width="fill_parent" android:maxLines="1" android:layout_weight="1" android:textColor="@android:color/black"></AutoCompleteTextView>
 		<ImageView android:layout_height="wrap_content" android:id="@+id/imageView1" android:src="@drawable/search_add" android:layout_width="wrap_content" android:onClick="onAddItemSearch"></ImageView>
 	</LinearLayout>
 	<ListView android:layout_width="match_parent" android:id="@android:id/list" android:layout_height="fill_parent" android:layout_weight="1"></ListView>
