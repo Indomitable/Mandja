@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="match_parent"
+	android:orientation="vertical">
+	<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout1">
+		<TextView android:textStyle="bold" android:id="@+id/textView1" android:text="@string/enterTime" android:layout_height="wrap_content" android:layout_width="match_parent" android:layout_weight="1"></TextView>
+	</LinearLayout>
+	<SeekBar android:layout_width="match_parent"
+		android:id="@+id/sbTime"
+		android:layout_marginTop="5dip" android:layout_marginLeft="2dip"
+		android:layout_marginRight="2dip" android:max="120" android:layout_height="wrap_content"></SeekBar>
+	<ZoomControls android:layout_width="match_parent"
+		android:layout_height="wrap_content" android:gravity="right"
+		android:id="@+id/zcTimer" android:layout_marginTop="3dip"></ZoomControls>
+	<TextView android:layout_gravity="center" android:textSize="30dip"
+		android:textStyle="bold" android:layout_width="wrap_content"
+		android:id="@+id/tvTime" android:layout_height="match_parent"
+		android:layout_weight="1" android:gravity="center_vertical"
+		android:text="@string/startTimerMinutes"></TextView>
+	<Button android:layout_width="match_parent"
+		android:drawableLeft="@drawable/clock" android:layout_height="wrap_content"
+		android:id="@+id/bStartTimer" android:layout_gravity="bottom"
+		android:text="@string/startTimer" android:onClick="onStartCountDown"></Button>
+
+</LinearLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="match_parent"
+	android:orientation="vertical" android:background="#fff0f0f0">
+	<Button android:text="@string/search" android:onClick="onSearchClick"
+		android:layout_height="wrap_content" android:drawableLeft="@drawable/search"
+		android:layout_width="fill_parent" android:layout_marginTop="5dip"></Button>
+	<Button android:layout_marginTop="5dip" android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:drawableLeft="@drawable/list"
+		android:text="@string/shoppingList" android:onClick="onShoppingListClick"></Button>
+	<Button android:layout_width="fill_parent"
+		android:layout_marginTop="5dip" android:text="@string/coockingTimer"
+		android:onClick="onTimerClick" android:layout_height="wrap_content"
+		android:drawableLeft="@drawable/clock"></Button>
+</LinearLayout>

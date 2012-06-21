@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="match_parent"
+	android:orientation="vertical" android:background="#fff0f0f0">
+	<LinearLayout android:layout_height="0px"
+		android:orientation="vertical" android:layout_weight="50"
+		android:id="@+id/llRecipesGroup" android:layout_width="match_parent">
+		<TextView android:layout_height="wrap_content"
+			android:textStyle="bold" android:id="@+id/txtRecipes" android:text="@string/recipes"
+			android:layout_width="wrap_content" android:layout_marginLeft="5dip"></TextView>
+		<LinearLayout android:layout_height="match_parent"
+			android:orientation="vertical" android:id="@+id/linearLayout9"
+			android:layout_width="match_parent">
+			<LinearLayout android:orientation="horizontal"
+				android:id="@+id/linearLayout1" android:layout_width="match_parent"
+				android:layout_marginTop="0dip" android:layout_height="0px"
+				android:layout_weight="1">
+				<LinearLayout android:layout_height="match_parent"
+					android:onClick="onLatestRecipesClick" android:gravity="center_vertical"
+					android:orientation="vertical" android:layout_weight="33"
+					android:id="@+id/linearLayout2" android:layout_width="match_parent">
+					<ImageView android:layout_height="wrap_content"
+						android:src="@drawable/rss_icon" android:id="@+id/imageView1"
+						android:layout_gravity="center_horizontal" android:layout_width="wrap_content"></ImageView>
+					<TextView android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal" android:id="@+id/textView1"
+						android:text="@string/latestRecipes" android:layout_width="fill_parent"
+						android:gravity="center_horizontal"></TextView>
+				</LinearLayout>
+				<LinearLayout android:layout_height="match_parent"
+					android:onClick="onAllRecipesClick" android:gravity="center_vertical"
+					android:orientation="vertical" android:layout_weight="33"
+					android:id="@+id/linearLayout3" android:layout_width="match_parent">
+					<ImageView android:layout_height="wrap_content"
+						android:src="@drawable/alphabet" android:id="@+id/imageView2"
+						android:layout_gravity="center_horizontal" android:layout_width="wrap_content"></ImageView>
+					<TextView android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal" android:id="@+id/textView2"
+						android:text="@string/recipes" android:layout_width="fill_parent"
+						android:gravity="center_horizontal"></TextView>
+				</LinearLayout>
+				<LinearLayout android:layout_height="match_parent"
+					android:onClick="onCategoryRecipesClick" android:gravity="center_vertical"
+					android:orientation="vertical" android:layout_weight="33"
+					android:id="@+id/linearLayout4" android:layout_width="match_parent">
+					<ImageView android:layout_height="wrap_content"
+						android:src="@drawable/categories_icon" android:id="@+id/imageView3"
+						android:layout_gravity="center_horizontal" android:layout_width="wrap_content"></ImageView>
+					<TextView android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal" android:id="@+id/textView3"
+						android:text="@string/categoriesRecipes" android:layout_width="fill_parent"
+						android:gravity="center_horizontal"></TextView>
+				</LinearLayout>
+			</LinearLayout>
+			<LinearLayout android:id="@+id/linearLayout5"
+				android:layout_width="match_parent" android:layout_marginTop="7dip"
+				android:layout_weight="1" android:layout_height="0px">
+				<LinearLayout android:layout_height="match_parent"
+					android:onClick="onShowTenRecipes" android:gravity="center_vertical|center_horizontal"
+					android:orientation="vertical" android:id="@+id/linearLayout6"
+					android:layout_weight="1" android:layout_width="match_parent">
+					<ImageView android:layout_height="wrap_content"
+						android:src="@drawable/ten" android:id="@+id/imageView4"
+						android:layout_width="wrap_content"></ImageView>
+					<TextView android:layout_height="wrap_content" android:id="@+id/textView4"
+						android:text="@string/tenRecipes" android:gravity="center_horizontal"
+						android:layout_width="fill_parent"></TextView>
+				</LinearLayout>
+				<LinearLayout android:layout_height="match_parent"
+					android:onClick="onShowFavoriteRecipes" android:gravity="center_vertical|center_horizontal"
+					android:orientation="vertical" android:id="@+id/linearLayout7"
+					android:layout_weight="1" android:layout_width="match_parent">
+					<ImageView android:layout_height="wrap_content"
+						android:src="@drawable/favorite" android:id="@+id/imageView5"
+						android:layout_width="wrap_content"></ImageView>
+					<TextView android:layout_height="wrap_content" android:id="@+id/textView5"
+						android:text="@string/favorites" android:layout_width="match_parent"
+						android:gravity="center_horizontal"></TextView>
+				</LinearLayout>
+				<LinearLayout android:layout_height="match_parent"
+					android:id="@+id/linearLayout8" android:orientation="vertical"
+					android:layout_weight="1" android:layout_width="match_parent"
+					android:gravity="center_vertical|center_horizontal" android:onClick="onToolsClick">
+					<ImageView android:layout_height="wrap_content"
+						android:layout_width="wrap_content" android:id="@+id/imageView10" android:src="@drawable/tools"></ImageView>
+					<TextView android:layout_height="wrap_content" android:id="@+id/textView11"
+						android:gravity="center_horizontal"
+						android:layout_gravity="center_horizontal" android:layout_width="match_parent" android:text="@string/tools"></TextView>
+				</LinearLayout>
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout android:layout_height="0px"
+		android:orientation="vertical" android:layout_weight="33"
+		android:id="@+id/llUsefullGroup" android:layout_width="match_parent">
+		<TextView android:layout_height="wrap_content"
+			android:textStyle="bold" android:id="@+id/textView6" android:text="@string/usefull"
+			android:layout_width="wrap_content" android:layout_marginLeft="5dip"></TextView>
+		<LinearLayout android:layout_height="match_parent"
+			android:gravity="center_vertical" android:orientation="horizontal"
+			android:id="@+id/linearLayout10" android:layout_width="match_parent">
+			<LinearLayout android:layout_height="match_parent"
+				android:onClick="onAdvicesClick" android:gravity="center_vertical"
+				android:orientation="vertical" android:layout_weight="25"
+				android:id="@+id/linearLayout11" android:layout_width="match_parent">
+				<ImageView android:layout_height="wrap_content"
+					android:src="@drawable/lamp_icon" android:id="@+id/imageView6"
+					android:layout_gravity="center_horizontal" android:layout_width="wrap_content"></ImageView>
+				<TextView android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal" android:id="@+id/textView7"
+					android:text="@string/advices" android:gravity="center_horizontal"
+					android:layout_width="fill_parent"></TextView>
+			</LinearLayout>
+			<LinearLayout android:layout_height="match_parent"
+				android:onClick="onSpicesClick" android:gravity="center_vertical"
+				android:orientation="vertical" android:layout_weight="25"
+				android:id="@+id/linearLayout12" android:layout_width="match_parent">
+				<ImageView android:layout_height="wrap_content"
+					android:src="@drawable/spices_icon" android:id="@+id/imageView7"
+					android:layout_gravity="center_horizontal" android:layout_width="wrap_content"></ImageView>
+				<TextView android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal" android:id="@+id/textView8"
+					android:text="@string/spices" android:gravity="center_horizontal"
+					android:layout_width="fill_parent"></TextView>
+			</LinearLayout>
+			<LinearLayout android:layout_height="match_parent"
+				android:onClick="onProductsClick" android:gravity="center_vertical"
+				android:orientation="vertical" android:layout_weight="25"
+				android:id="@+id/linearLayout13" android:layout_width="match_parent">
+				<ImageView android:layout_height="wrap_content"
+					android:src="@drawable/products_icon" android:id="@+id/imageView8"
+					android:layout_gravity="center_horizontal" android:layout_width="wrap_content"></ImageView>
+				<TextView android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal" android:id="@+id/textView9"
+					android:text="@string/products" android:gravity="center_horizontal"
+					android:layout_width="fill_parent"></TextView>
+			</LinearLayout>
+			<LinearLayout android:layout_height="match_parent"
+				android:orientation="vertical" android:layout_width="match_parent"
+				android:onClick="onDictionaryClick" android:gravity="center_vertical"
+				android:id="@+id/linearLayout14" android:layout_weight="25">
+				<ImageView android:layout_height="wrap_content"
+					android:src="@drawable/information_icon" android:layout_width="wrap_content"
+					android:id="@+id/imageView9" android:layout_gravity="center_horizontal"></ImageView>
+				<TextView android:layout_height="wrap_content" android:id="@+id/textView10"
+					android:layout_gravity="center_horizontal" android:text="@string/dictionary"
+					android:layout_width="fill_parent" android:gravity="center_horizontal"></TextView>
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+	<RelativeLayout android:layout_height="0px"
+		android:onClick="onLatestRecipeClick" android:id="@+id/relativeLayout1"
+		android:layout_marginTop="5dip" android:layout_weight="25"
+		android:layout_width="match_parent">
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:textStyle="bold"
+			android:id="@+id/txtRecipeCaption" android:text="@string/recipeOfTheDay" android:layout_marginLeft="5dip"></TextView>
+		<ImageView android:layout_below="@id/txtRecipeCaption"
+			android:id="@+id/imgRecipePicture" android:layout_height="fill_parent" android:layout_width="70dip"></ImageView>
+		<TextView android:layout_below="@id/txtRecipeCaption"
+			android:layout_width="match_parent" android:layout_toRightOf="@id/imgRecipePicture" android:id="@+id/txtRecipeContent" android:layout_alignParentBottom="true" android:layout_height="fill_parent" android:gravity="center_vertical" android:textStyle="bold"></TextView>
+	</RelativeLayout>
+</LinearLayout>

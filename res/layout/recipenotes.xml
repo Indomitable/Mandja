@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_height="match_parent"
+	android:layout_width="match_parent" android:id="@+id/layout_root" android:background="#fff0f0f0">
+	<TextView android:layout_height="wrap_content"
+		android:layout_width="match_parent" android:id="@+id/textView1"
+		android:textStyle="bold" android:text="@string/notes"
+		android:layout_gravity="top"  android:textColor="#ff000000"></TextView>
+	<EditText android:id="@+id/txtEditNote" android:layout_width="match_parent"
+		android:layout_weight="1" android:gravity="top|left" android:layout_height="match_parent" android:paddingTop="10dip" android:paddingBottom="10dip"></EditText>
+	<LinearLayout android:id="@+id/linearLayout1"
+		android:layout_width="match_parent" android:layout_gravity="center_horizontal"
+		android:layout_height="wrap_content">
+		<Button android:text="@string/ok" android:layout_height="wrap_content"
+			android:id="@+id/bOk" android:layout_gravity="center_horizontal"
+			android:layout_weight="1" android:layout_width="0dip"></Button>
+	</LinearLayout>
+</LinearLayout>
