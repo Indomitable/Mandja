@@ -1,14 +1,15 @@
 package com.vmladenov.cook.core.adapters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
-import com.vmladenov.cook.core.html.SmallPreview;
-import com.vmladenov.cook.core.loaders.ISmallPreviewLoader;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.vmladenov.cook.core.loaders.ISmallPreviewLoader;
+import com.vmladenov.cook.domain.PreviewListItem;
 
 public class ContinuesSmallPreviewListAdapter<TLoader extends ISmallPreviewLoader> extends
         SmallPreviewListAdapter {
@@ -17,7 +18,7 @@ public class ContinuesSmallPreviewListAdapter<TLoader extends ISmallPreviewLoade
     private TLoader loader;
 
     public ContinuesSmallPreviewListAdapter(Context context, TLoader loader,
-                                            List<SmallPreview> objects) {
+                                            List<PreviewListItem> objects) {
         super(context, objects);
         this.loader = loader;
     }
@@ -38,7 +39,7 @@ public class ContinuesSmallPreviewListAdapter<TLoader extends ISmallPreviewLoade
             @Override
             public void run() {
                 try {
-                    ArrayList<SmallPreview> loadedData = loader.getNextData();
+                    ArrayList<PreviewListItem> loadedData = loader.getNextData();
                     loadMoreData(loadedData);
                 } catch (Exception e) {
                     loadingMore = false;
@@ -47,7 +48,7 @@ public class ContinuesSmallPreviewListAdapter<TLoader extends ISmallPreviewLoade
         }).start();
     }
 
-    protected void loadMoreData(final ArrayList<SmallPreview> loadedData) {
+    protected void loadMoreData(final ArrayList<PreviewListItem> loadedData) {
         handler.post(new Runnable() {
             @Override
             public void run() {

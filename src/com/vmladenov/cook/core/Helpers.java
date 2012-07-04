@@ -1,154 +1,135 @@
 package com.vmladenov.cook.core;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Environment;
-import android.os.Handler;
-import android.widget.ImageView;
-import com.vmladenov.cook.CustomApplication;
-import com.vmladenov.cook.core.db.DataHelper;
-import com.vmladenov.cook.core.html.SmallPreview;
-
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
-public final class Helpers {
-    public static synchronized DataHelper getDataHelper() {
-        return CustomApplication.getInstance().getDataHelper();
-    }
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Handler;
 
-    public static boolean isOnline(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) (context
-                .getSystemService(Context.CONNECTIVITY_SERVICE));
-        NetworkInfo info = cm.getActiveNetworkInfo();
-        return info != null && info.isConnected() && !info.isRoaming();
-    }
+import com.vmladenov.cook.CustomApplication;
+import com.vmladenov.cook.core.db.DataHelper;
 
-    public static Bitmap getImage(String relativeUrl) {
-        try {
-            URL imageUrl = new URL(GlobalStrings.SiteUrl + relativeUrl);
-            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-            conn.setDoInput(true);
-            conn.connect();
-            InputStream is = conn.getInputStream();
+public final class Helpers
+{
+	public static synchronized DataHelper getDataHelper()
+	{
+		return CustomApplication.getInstance().getDataHelper();
+	}
 
-            return BitmapFactory.decodeStream(is);
-        } catch (IOException e) {
-        }
-        return null;
-    }
+	public static boolean isOnline(Context context)
+	{
+		try
+		{
+			SharedPreferences preferences = context.getSharedPreferences("MandjaSettings", Context.MODE_PRIVATE);
+			boolean useOnlyWiFi = preferences.getBoolean("DownloadOnlyOnWiFi", false);
 
-    public static void setImageFromUrlAsync(ImageView image, final String relativeUrl) {
-        if (relativeUrl == null || relativeUrl == "") return;
-        final Handler handler = new Handler();
-        new Thread(new ParameterizedRunnable<ImageView>(image) {
+			ConnectivityManager cm = (ConnectivityManager) (context.getSystemService(Context.CONNECTIVITY_SERVICE));
+			if (useOnlyWiFi) {
+				NetworkInfo wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+				return wifiInfo.isConnected();
+			}
 
-            @Override
-            public void ParameterizedRun(ImageView imageParam) {
-                final Bitmap bitmap = Helpers.getImage(relativeUrl);
-                handler.post(new ParameterizedRunnable<ImageView>(imageParam) {
-                    @Override
-                    public void ParameterizedRun(ImageView imageParam) {
-                        imageParam.setImageBitmap(bitmap);
-                    }
-                });
-            }
-        }).start();
-    }
+			NetworkInfo info = cm.getActiveNetworkInfo();
+			return info != null && info.isConnected() && !info.isRoaming();
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
-    public static void setImageInPreviewAndStoreAsync(final ImageView image,
-                                                      final SmallPreview preview) {
-        if (preview.imageUrl == null || preview.imageUrl == "") return;
-        final Handler handler = new Handler();
-        new Thread(new Runnable() {
+	public static BitmapDrawable getImage(String url)
+	{
+		try
+		{
+			URL imageUrl = new URL(url);
+			HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+			conn.setDoInput(true);
+			conn.connect();
+			InputStream is = conn.getInputStream();
+			return new BitmapDrawable(is);
+			// return BitmapFactory.decodeStream(is);
 
-            @Override
-            public void run() {
-                final Bitmap bitmap = Helpers.getSmallImage(image.getContext(), preview.imageUrl);
-                // Helpers.getImage(preview.getImageUrl());
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        image.setImageBitmap(bitmap);
-                        preview.cachedImage = bitmap;
-                    }
-                });
-            }
-        }).start();
-    }
+		} catch (IOException e)
+		{
+		}
+		return null;
+	}
 
-    public static void copyFile(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
-        while ((read = in.read(buffer)) != -1) {
-            out.write(buffer, 0, read);
-        }
-    }
+	public static void setImageFromUrlAsync(IOnImageDownload callback, Context context, final String url)
+	{
+		if (url == null || url == "")
+			return;
+		if (!Helpers.isOnline(context)) {
+			return;
+		}
+		final Handler handler = new Handler();
+		new Thread(new ParameterizedRunnable<IOnImageDownload>(callback)
+		{
 
-    public static void copyDatabase(Context context, OutputStream out) throws IOException {
-        AssetManager am = context.getAssets();
-        byte[] b = new byte[1024];
-        int i, r;
-        String format = "cook%d.db";
-        for (i = 1; i < 7; i++) {
-            String fn = String.format(format, i);
-            InputStream is = am.open(fn);
-            while ((r = is.read(b)) != -1)
-                out.write(b, 0, r);
-            is.close();
-        }
-        out.close();
-    }
+			@Override
+			public void ParameterizedRun(IOnImageDownload callback)
+			{
+				final BitmapDrawable draw = Helpers.getImage(url);
+				handler.post(new ParameterizedRunnable<IOnImageDownload>(callback)
+				{
+					@Override
+					public void ParameterizedRun(IOnImageDownload callback)
+					{
+						callback.ReceiveImage(draw);
+					}
+				});
+			}
+		}).start();
+	}
 
-    public synchronized static Bitmap getSmallImage(Context context, String imageUrl) {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)
-                || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            String directory = context.getExternalFilesDir(null) + "/images/";
-            File directoryFile = new File(directory);
-            if (!directoryFile.exists()) directoryFile.mkdir();
-            String imageName = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
-            File file = new File(directory, imageName);
-            if (file.exists()) {
-                return readFile(directory + imageName);
-            } else {
-                if (isOnline(context)) {
-                    Bitmap bitmap = Helpers.getImage(imageUrl);
-                    saveFile(bitmap, directory + imageName);
-                    return bitmap;
-                } else
-                    return null;
-            }
-        } else {
-            return Helpers.getImage(imageUrl);
-        }
-        // return null;
-    }
+	public static void saveFile(BitmapDrawable draw, String path)
+	{
+		if (draw == null || draw.getBitmap().getHeight() < 1)
+			return;
+		try
+		{
+			OutputStream outputStream = new FileOutputStream(path);
+			BufferedOutputStream bos = new BufferedOutputStream(outputStream);
+			draw.getBitmap().compress(CompressFormat.JPEG, 90, bos);
+			bos.flush();
+			bos.close();
+			outputStream.close();
+		} catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
 
-    private static Bitmap readFile(String path) {
-        return BitmapFactory.decodeFile(path);
-    }
-
-    public static void saveFile(Bitmap bitmap, String path) {
-        if (bitmap == null || bitmap.getHeight() < 1) return;
-        try {
-            OutputStream outputStream = new FileOutputStream(path);
-            BufferedOutputStream bos = new BufferedOutputStream(outputStream);
-            bitmap.compress(CompressFormat.JPEG, 90, bos);
-            bos.flush();
-            bos.close();
-            outputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	public static void copyDatabase(Context context, OutputStream out) throws IOException
+	{
+		AssetManager am = context.getAssets();
+		byte[] b = new byte[1024];
+		ZipInputStream zipStream = new ZipInputStream(am.open("cook.db.zip"));
+		ZipEntry zipEntry = zipStream.getNextEntry();
+		if (zipEntry != null)
+		{
+			for (int r = zipStream.read(b); r != -1; r = zipStream.read(b))
+				out.write(b, 0, r);
+			zipStream.closeEntry();
+		}
+		zipStream.close();
+		out.close();
+	}
 
 }

@@ -3,7 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <ImageView android:paddingLeft="0px" android:layout_width="wrap_content"
-				android:id="@+id/imgRecipePicture" android:layout_height="wrap_content"
-				android:layout_gravity="center_horizontal"></ImageView>
+
+    <ImageView
+        android:id="@+id/imgRecipePicture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/image"
+        android:paddingLeft="0px" >
+
+</ImageView>
 </LinearLayout>

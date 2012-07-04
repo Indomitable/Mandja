@@ -1,7 +1,6 @@
 package com.vmladenov.cook;
 
 import android.app.Application;
-import com.vmladenov.cook.core.db.AutoUpdate;
 import com.vmladenov.cook.core.db.DataHelper;
 import com.vmladenov.cook.ui.CustomCountDown;
 
@@ -16,8 +15,6 @@ public class CustomApplication extends Application {
     public void onCreate() {
         super.onCreate();
         _instance.dataHelper = new DataHelper(getApplicationContext());
-        AutoUpdate autoUpdate = new AutoUpdate();
-        autoUpdate.start();
     }
 
     public int CurrentTheme;

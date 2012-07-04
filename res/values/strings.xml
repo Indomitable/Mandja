@@ -9,10 +9,10 @@
 	<string name="making">Приготвяне</string>
 	<string name="notes">Бележки</string>
 	<string name="products">Продукти</string>
-	<string name="loading">Зареждане...</string>
-	<string name="loadingMoreListFooter">Зареждане на още...</string>
-	<string name="loadingRecipes">Зареждане на рецепти...</string>
-	<string name="loadingRecipe">Зареждане на рецепта...</string>
+	<string name="loading">Зареждане…</string>
+	<string name="loadingMoreListFooter">Зареждане на още…</string>
+	<string name="loadingRecipes">Зареждане на рецепти…</string>
+	<string name="loadingRecipe">Зареждане на рецепта…</string>
 	<string name="latestRecipe">Последна рецепта</string>
 	<string name="latestRecipes">Последни</string>
 	<string name="latestRecipesLong">Последни рецепти</string>
@@ -29,7 +29,7 @@
 	<string name="tenRecipes">10 рецепти от</string>
 	<string name="favorites">Любими</string>
 	<string name="recipeOfTheDay">Рецепта на деня</string>
-	<string name="ok">Ok</string>
+	<string name="ok">OK</string>
 	<string name="search">Търсене</string>
 	<string name="searchByProducts">Търсене по продукти</string>
 	<string name="addProductOrSpice">Добави продукт или подправка</string>
@@ -59,9 +59,14 @@
 	<string name="startTimer">Стартирай</string>
 	<string name="stopTimer">Спри</string>
 	<string name="startTimerMinutes">00:00 минути</string>
-	<string name="alphabetSorting">Сортирай по азбучен ред</string>
-	<string name="noSorting">Без сортировка</string>
+	<string name="alphabetSorting">По азбучен ред</string>
+	<string name="noSorting">Без подреждане</string>
 	<string name="addRating">Задайте рейтинг</string>
 	<string name="empty"></string>
-    <string name="cacheImages">Сваляй картинките локално</string>
+    <string name="cacheImages">Запазвай локално</string>
+    <string name="downloadImages">Сваляй снимки на храните</string>
+    <string name="downloadOnlyOnWiFi">Сваляй само при WiFi връзка</string>
+    <string name="downloadThumbnails">Сваляй малките снимки</string>
+    <string name="downloadBigImages">Сваляй големите снимки</string>
+    <string name="image">Снимка</string>
 </resources>

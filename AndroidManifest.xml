@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.vmladenov.cook" android:versionCode="9"
-	android:versionName="1.8">
-	<uses-sdk android:targetSdkVersion="8" android:minSdkVersion="8"></uses-sdk>
+	package="com.vmladenov.cook" android:versionCode="10"
+	android:versionName="2.0">
+	<uses-sdk android:targetSdkVersion="10" android:minSdkVersion="10"></uses-sdk>
+	<permission android:name="com.vmladenov.com.COOK_WITH_ME"></permission>
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-
+	<uses-permission android:name="com.vmladenov.com.COOK_WITH_ME" />
 	<application android:icon="@drawable/icon" android:label="@string/app_name"
 		android:theme="@android:style/Theme.Light" android:name="CustomApplication">
 		<activity android:name="com.vmladenov.cook.ui.recipes.LatestRecipesActivity"
@@ -55,14 +56,14 @@
 		<activity android:name="com.vmladenov.cook.ui.useful.UsefulViewActivity"
 			android:label="@string/app_name" android:configChanges="keyboard|orientation">
 		</activity>
-		<activity android:name="com.vmladenov.cook.ui.recipes.SearchActivity">
+		<activity android:name="com.vmladenov.cook.ui.recipes.SearchActivity" android:permission="com.vmladenov.com.COOK_WITH_ME">
 			<intent-filter>
 				<action android:name="android.intent.action.SEARCH" />
 			</intent-filter>
 			<meta-data android:name="android.app.searchable"
 				android:resource="@xml/searchable" />
 		</activity>
-		<activity android:name="com.vmladenov.cook.ui.useful.UsefulSearchActivity">
+		<activity android:name="com.vmladenov.cook.ui.useful.UsefulSearchActivity" android:permission="com.vmladenov.com.COOK_WITH_ME">
 			<intent-filter>
 				<action android:name="android.intent.action.SEARCH" />
 			</intent-filter>
@@ -101,8 +102,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-        <activity android:name=".ui.SettingsActivity"/>
-        <provider android:name=".ui.useful.UsefulSearchProvicer"
+        <provider android:name=".ui.useful.UsefulSearchProvicer" android:permission="com.vmladenov.com.COOK_WITH_ME"
 			android:authorities="com.vmladenov.cook.ui.useful.UsefulSearchProvicer"></provider>
 	</application>
 </manifest>

@@ -1,9 +1,10 @@
 package com.vmladenov.cook.core.loaders;
 
-import android.util.Pair;
-import com.vmladenov.cook.core.html.SmallPreview;
-
 import java.util.ArrayList;
+
+import android.util.Pair;
+
+import com.vmladenov.cook.domain.PreviewListItem;
 
 public abstract class PagedLoader extends ISmallPreviewLoader {
     public PagedLoader() {
@@ -24,10 +25,10 @@ public abstract class PagedLoader extends ISmallPreviewLoader {
         return _page != null;
     }
 
-    public abstract Pair<ArrayList<SmallPreview>, Integer> getPagedData();
+    public abstract Pair<ArrayList<PreviewListItem>, Integer> getPagedData();
 
-    public ArrayList<SmallPreview> getNextData() {
-        Pair<ArrayList<SmallPreview>, Integer> data = getPagedData();
+    public ArrayList<PreviewListItem> getNextData() {
+        Pair<ArrayList<PreviewListItem>, Integer> data = getPagedData();
         this.setPage(data.second);
         return data.first;
     }

@@ -1,9 +1,9 @@
 package com.vmladenov.cook.core.loaders;
 
-import com.vmladenov.cook.core.Helpers;
-import com.vmladenov.cook.core.html.SmallPreview;
-
 import java.util.ArrayList;
+
+import com.vmladenov.cook.core.Helpers;
+import com.vmladenov.cook.domain.PreviewListItem;
 
 public class FavoriteRecipesLoader extends ISmallPreviewLoader {
     @Override
@@ -12,7 +12,7 @@ public class FavoriteRecipesLoader extends ISmallPreviewLoader {
     }
 
     @Override
-    public ArrayList<SmallPreview> getNextData() {
+    public ArrayList<PreviewListItem> getNextData() {
         return Helpers.getDataHelper().RecipesRepository.getRecipesInFavorites();
     }
 }

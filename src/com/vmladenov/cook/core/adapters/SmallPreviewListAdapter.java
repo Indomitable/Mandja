@@ -9,15 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.vmladenov.cook.R;
 import com.vmladenov.cook.core.ImageLoader;
-import com.vmladenov.cook.core.html.SmallPreview;
+import com.vmladenov.cook.domain.PreviewListItem;
 
 import java.util.List;
 
-public class SmallPreviewListAdapter extends ArrayAdapter<SmallPreview> {
+public class SmallPreviewListAdapter extends ArrayAdapter<PreviewListItem> {
     LayoutInflater inflater;
     public ImageLoader imageLoader;
 
-    public SmallPreviewListAdapter(Context context, List<SmallPreview> objects) {
+    public SmallPreviewListAdapter(Context context, List<PreviewListItem> objects) {
         super(context, R.layout.small_list_view, objects);
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         imageLoader = new ImageLoader(context);
@@ -38,14 +38,14 @@ public class SmallPreviewListAdapter extends ArrayAdapter<SmallPreview> {
         } else
             holder = (ViewHolder) v.getTag();
 
-        SmallPreview preview = getItem(position);
+        PreviewListItem preview = getItem(position);
         if (preview != null) {
             TextView title = (TextView) v.findViewById(R.id.txtTitle);
             final ImageView image = (ImageView) v.findViewById(R.id.smallImage);
-            title.setText(preview.title);
-            if (preview.cachedImage != null)
-                image.setImageBitmap(preview.cachedImage);
-            else if (preview.imageUrl != null) {
+            title.setText(preview.getTitle());
+            if (preview.getCachedImage() != null)
+                image.setImageBitmap(preview.getCachedImage());
+            else if (preview.getThumbnailUrl() != null) {
                 holder.image.setTag(preview);
                 imageLoader.DisplayImage(preview, holder.image);
             }

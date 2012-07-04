@@ -1,14 +1,15 @@
 package com.vmladenov.cook.ui;
 
+import java.util.ArrayList;
+
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+
 import com.vmladenov.cook.R;
 import com.vmladenov.cook.core.adapters.SmallPreviewListAdapter;
-import com.vmladenov.cook.core.html.SmallPreview;
 import com.vmladenov.cook.core.loaders.ISmallPreviewLoader;
-
-import java.util.ArrayList;
+import com.vmladenov.cook.domain.PreviewListItem;
 
 public abstract class SmallPreviewListActivity<TLoader extends ISmallPreviewLoader> extends
         ListActivity {
@@ -30,7 +31,7 @@ public abstract class SmallPreviewListActivity<TLoader extends ISmallPreviewLoad
         Thread readThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                final ArrayList<SmallPreview> loadedData = _loader.getNextData();
+                final ArrayList<PreviewListItem> loadedData = _loader.getNextData();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -45,7 +46,7 @@ public abstract class SmallPreviewListActivity<TLoader extends ISmallPreviewLoad
 
     protected abstract TLoader CreateLoader();
 
-    private void showData(ArrayList<SmallPreview> loadedData) {
+    private void showData(ArrayList<PreviewListItem> loadedData) {
         SmallPreviewListAdapter adapter = new SmallPreviewListAdapter(this, loadedData);
         setListAdapter(adapter);
     }

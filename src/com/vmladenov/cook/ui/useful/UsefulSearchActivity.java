@@ -1,15 +1,16 @@
 package com.vmladenov.cook.ui.useful;
 
+import java.util.ArrayList;
+
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.vmladenov.cook.R;
 import com.vmladenov.cook.core.Helpers;
 import com.vmladenov.cook.core.adapters.SmallPreviewListAdapter;
-import com.vmladenov.cook.core.html.SmallPreview;
-
-import java.util.ArrayList;
+import com.vmladenov.cook.domain.PreviewListItem;
 
 public class UsefulSearchActivity extends ListActivity {
     private int category;
@@ -29,7 +30,7 @@ public class UsefulSearchActivity extends ListActivity {
     }
 
     private void ProcessQuery(String query) {
-        ArrayList<SmallPreview> items = null;
+        ArrayList<PreviewListItem> items = null;
         switch (category) {
             case 1:
                 items = Helpers.getDataHelper().SpicesRepository.searchSpices(query);

@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-    <CheckBox android:id="@+id/cbCacheImages" android:layout_height="wrap_content" android:layout_width="match_parent"
-              android:text="@string/cacheImages"></CheckBox>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="fill_parent"
-                  android:layout_weight="1"></LinearLayout>
-    <Button android:layout_height="wrap_content" android:layout_width="wrap_content"
-            android:layout_gravity="bottom|center_horizontal" android:width="150dp"
-            android:text="@string/ok" android:onClick="onSavePreferences"
-            ></Button>
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <CheckBox
+            android:id="@+id/cbDownloadImages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/downloadImages" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical" >
+
+            <CheckBox
+                android:id="@+id/cbCacheImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cacheImages" />
+
+            <CheckBox
+                android:id="@+id/cbDownloadOnlyOnWiFi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/downloadOnlyOnWiFi" />
+
+            <CheckBox
+                android:id="@+id/cbDownloadThumbnails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/downloadThumbnails" />
+
+            <CheckBox
+                android:id="@+id/cbDownloadBigImages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/downloadBigImages" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+    </View>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:onClick="onSavePreferences"
+        android:text="@string/ok"
+        android:width="150dp" >
+    </Button>
+
 </LinearLayout>

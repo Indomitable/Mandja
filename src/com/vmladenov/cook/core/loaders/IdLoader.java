@@ -1,15 +1,15 @@
 package com.vmladenov.cook.core.loaders;
 
-import com.vmladenov.cook.core.db.ISmallPreviewListRepository;
-import com.vmladenov.cook.core.html.SmallPreview;
-
 import java.util.ArrayList;
+
+import com.vmladenov.cook.core.db.BaseRepository;
+import com.vmladenov.cook.domain.PreviewListItem;
 
 public class IdLoader extends ISmallPreviewLoader {
     protected final Integer pageSize = 10;
     protected long currentId = 0;
     protected long maxId = 0;
-    private ISmallPreviewListRepository repository;
+    private BaseRepository repository;
 
     public Boolean hasMore() {
         if (this.maxId == 0) maxId = getRepository().getMaxId();
@@ -17,18 +17,18 @@ public class IdLoader extends ISmallPreviewLoader {
     }
 
     @Override
-    public ArrayList<SmallPreview> getNextData() {
+    public ArrayList<PreviewListItem> getNextData() {
         long startId = currentId;
-        ArrayList<SmallPreview> data = getRepository().getPreviews(startId, sorting);
+        ArrayList<PreviewListItem> data = getRepository().getPreviews(startId, sorting);
         currentId = startId + pageSize;
         return data;
     }
 
-    public void setRepository(ISmallPreviewListRepository repository) {
+    public void setRepository(BaseRepository repository) {
         this.repository = repository;
     }
 
-    public ISmallPreviewListRepository getRepository() {
+    public BaseRepository getRepository() {
         return repository;
     }
 }
