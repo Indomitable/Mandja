@@ -11,35 +11,22 @@ import android.widget.ArrayAdapter;
 import com.vmladenov.cook.R;
 
 public abstract class SimpleLinkListActivity<T> extends ListActivity {
-	ProgressDialog progressDialog = null;
+	static ProgressDialog progressDialog = null;
 
-	// ArrayList<T> data = null;
-
-	// @SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.simple_link_list);
 		progressDialog = null;
-
-		// data = null;
-
-		// data = (ArrayList<T>) getLastNonConfigurationInstance();
-		// if (data != null) {
-		// ShowData();
-		// } else {
 		LoadData();
-		// }
 	}
 
-	Handler loadHandler = new Handler() {
+	static Handler loadHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			if (progressDialog != null)
 				progressDialog.dismiss();
-		}
-
-		;
+		};
 	};
 
 	protected void LoadData() {
@@ -71,11 +58,6 @@ public abstract class SimpleLinkListActivity<T> extends ListActivity {
 				data);
 		setListAdapter(adapter);
 	}
-
-	// @Override
-	// public Object onRetainNonConfigurationInstance() {
-	// return data;
-	// }
 
 	protected abstract ArrayList<T> getData();
 }
