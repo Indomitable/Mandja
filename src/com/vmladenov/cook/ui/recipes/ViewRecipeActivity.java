@@ -204,7 +204,7 @@ public final class ViewRecipeActivity extends Activity implements OnSlideListene
 		Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
 		shareIntent.setType("text/plain");
 		shareIntent.putExtra(Intent.EXTRA_SUBJECT, recipe.getTitle());
-		// shareIntent.putExtra(Intent.EXTRA_TEXT, recipe.getUrl());
+		shareIntent.putExtra(Intent.EXTRA_TEXT, recipe.getProducts() + "\n" + recipe.getDescription());
 		startActivity(Intent.createChooser(shareIntent, this.getString(R.string.share_title)));
 	}
 

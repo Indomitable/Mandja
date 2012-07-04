@@ -17,7 +17,6 @@ public final class RecipeCategoriesActivity extends SimpleLinkListActivity<Simpl
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		Intent intent = getIntent();
 		Bundle bundle = intent.getBundleExtra("PARENT");
 		if (bundle == null) {
@@ -25,6 +24,7 @@ public final class RecipeCategoriesActivity extends SimpleLinkListActivity<Simpl
 		} else {
 			parentId = bundle.getInt("PARENT_ID");
 		}
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
