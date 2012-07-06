@@ -6,6 +6,6 @@ import com.vmladenov.cook.core.Helpers;
 
 public class AdvicesLoader extends IdLoader {
 	public AdvicesLoader(Context context) {
-		super.setRepository(Helpers.getDataHelper().AdvicesRepository);
+		super.setRepository(Helpers.getDataHelper().getAdvicesRepository());
 	}
 }

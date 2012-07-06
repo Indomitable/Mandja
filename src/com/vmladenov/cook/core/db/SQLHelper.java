@@ -2,6 +2,7 @@ package com.vmladenov.cook.core.db;
 
 import java.util.ArrayList;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -109,5 +110,9 @@ public class SQLHelper {
 
 	public static void ExecuteNonQuery(String sql, SQLiteDatabase db, Object... args) {
 		db.execSQL(sql, args);
+	}
+
+	public static long ExecuteInsert(String tableName, SQLiteDatabase db, ContentValues values) {
+		return db.insert(tableName, null, values);
 	}
 }

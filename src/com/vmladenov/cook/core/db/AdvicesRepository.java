@@ -10,20 +10,19 @@ import com.vmladenov.cook.core.objects.SimpleView;
 
 public class AdvicesRepository extends BaseRepository {
 
-    private static final String ADVICE_CATEGORIES_SQL = "SELECT ID, TITLE FROM ADVICE_CATEGORIES";
+	private static final String ADVICE_CATEGORIES_SQL = "SELECT ID, TITLE FROM ADVICE_CATEGORIES";
 
-    public AdvicesRepository(SQLiteDatabase db) {
-        super(db);
-    }
-    
+	public AdvicesRepository(SQLiteDatabase db) {
+		super(db);
+	}
+
 	@Override
 	protected String getTableName() {
 		return GlobalStrings.ADVICE_TABLE_NAME;
 	}
 
-
-    public ArrayList<SimpleView> getCategories() {
-        return SQLHelper.ExecuteSql(ADVICE_CATEGORIES_SQL, db, new SimpleViewConverter());
-    }
+	public ArrayList<SimpleView> getCategories() {
+		return SQLHelper.ExecuteSql(ADVICE_CATEGORIES_SQL, db, new SimpleViewConverter());
+	}
 
 }

@@ -30,6 +30,7 @@
 	<string name="favorites">Любими</string>
 	<string name="recipeOfTheDay">Рецепта на деня</string>
 	<string name="ok">OK</string>
+	<string name="cancel">Отказ</string>
 	<string name="search">Търсене</string>
 	<string name="searchByProducts">Търсене по продукти</string>
 	<string name="addProductOrSpice">Добави продукт или подправка</string>
@@ -69,4 +70,6 @@
     <string name="downloadThumbnails">Сваляй малките снимки</string>
     <string name="downloadBigImages">Сваляй големите снимки</string>
     <string name="image">Снимка</string>
+    <string name="add">Добави</string>
+    <string name="initialize">Инициализиране</string>
 </resources>

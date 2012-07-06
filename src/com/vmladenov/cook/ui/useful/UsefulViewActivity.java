@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.vmladenov.cook.R;
 import com.vmladenov.cook.core.Helpers;
 import com.vmladenov.cook.core.IOnImageDownload;
+import com.vmladenov.cook.core.db.BaseRepository;
 import com.vmladenov.cook.domain.BigViewItem;
 
 public class UsefulViewActivity extends Activity {
@@ -27,22 +28,24 @@ public class UsefulViewActivity extends Activity {
 		id = bundle.getInt("id");
 		category = bundle.getInt("category");
 		BigViewItem view = null;
+		BaseRepository repository;
 		switch (category) {
-		case 0: // Advice
-			view = Helpers.getDataHelper().AdvicesRepository.getBigViewItem(id);
-			break;
-		case 1: // Spice
-			view = Helpers.getDataHelper().SpicesRepository.getBigViewItem(id);
-			break;
-		case 2: // Product
-			view = Helpers.getDataHelper().ProductsRepository.getBigViewItem(id);
-			break;
-		case 3: // Dictionary
-			view = Helpers.getDataHelper().DictionaryRepository.getBigViewItem(id);
-			break;
-		default:
-			break;
+			case 0: // Advice
+				repository = Helpers.getDataHelper().getAdvicesRepository();
+				break;
+			case 1: // Spice
+				repository = Helpers.getDataHelper().getAdvicesRepository();
+				break;
+			case 2: // Product
+				repository = Helpers.getDataHelper().getAdvicesRepository();
+				break;
+			case 3: // Dictionary
+				repository = Helpers.getDataHelper().getAdvicesRepository();
+				break;
+			default:
+				return;
 		}
+		view = repository.getBigViewItem(id);
 		if (view != null)
 			showUseful(view);
 	}

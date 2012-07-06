@@ -116,7 +116,6 @@ public class RecipesRepository extends BaseRepository {
 			sqlBuilder.append(sql);
 			sqlBuilder.append(" INTERSECT ");
 		}
-
 		String sql = sqlBuilder.substring(0, sqlBuilder.length() - 11);
 		return SQLHelper.ExecuteSql(sql, db, new PreviewListItemConverter());
 	}

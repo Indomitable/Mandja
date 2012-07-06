@@ -6,29 +6,27 @@ import com.vmladenov.cook.core.db.BaseRepository;
 import com.vmladenov.cook.domain.PreviewListItem;
 
 public class IdLoader extends ISmallPreviewLoader {
-    protected final Integer pageSize = 10;
-    protected long currentId = 0;
-    protected long maxId = 0;
-    private BaseRepository repository;
+	protected final Integer pageSize = 10;
+	protected long currentId = 0;
+	protected long maxId = 0;
+	private BaseRepository repository;
 
-    public Boolean hasMore() {
-        if (this.maxId == 0) maxId = getRepository().getMaxId();
-        return currentId < this.maxId;
-    }
+	public Boolean hasMore() {
+		if (this.maxId == 0)
+			maxId = repository.getMaxId();
+		return currentId < this.maxId;
+	}
 
-    @Override
-    public ArrayList<PreviewListItem> getNextData() {
-        long startId = currentId;
-        ArrayList<PreviewListItem> data = getRepository().getPreviews(startId, sorting);
-        currentId = startId + pageSize;
-        return data;
-    }
+	@Override
+	public ArrayList<PreviewListItem> getNextData() {
+		long startId = currentId;
+		ArrayList<PreviewListItem> data = repository.getPreviews(startId, sorting);
+		currentId = startId + pageSize;
+		return data;
+	}
 
-    public void setRepository(BaseRepository repository) {
-        this.repository = repository;
-    }
+	public void setRepository(BaseRepository repository) {
+		this.repository = repository;
+	}
 
-    public BaseRepository getRepository() {
-        return repository;
-    }
 }

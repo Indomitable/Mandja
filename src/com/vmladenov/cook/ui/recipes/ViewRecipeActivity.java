@@ -31,6 +31,7 @@ import com.vmladenov.cook.core.Helpers;
 import com.vmladenov.cook.core.IOnImageDownload;
 import com.vmladenov.cook.core.OnSlideListener;
 import com.vmladenov.cook.core.SlideGestureDetector;
+import com.vmladenov.cook.core.db.RecipesRepository;
 import com.vmladenov.cook.domain.Recipe;
 
 public final class ViewRecipeActivity extends Activity implements OnSlideListener {
@@ -38,11 +39,13 @@ public final class ViewRecipeActivity extends Activity implements OnSlideListene
 	Recipe recipe = null;
 	private SlideGestureDetector detector;
 	private ViewFlipper flipper;
+	private RecipesRepository repository;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.recipeview);
+		this.repository = Helpers.getDataHelper().getRecipesRepository();
 		this.detector = new SlideGestureDetector(this, this);
 		this.flipper = (ViewFlipper) findViewById(R.id.flipper);
 		View.OnTouchListener onTouchListener = new View.OnTouchListener() {
@@ -73,7 +76,7 @@ public final class ViewRecipeActivity extends Activity implements OnSlideListene
 		Thread readRecipeThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				recipe = Helpers.getDataHelper().RecipesRepository.getRecipe(id);
+				recipe = repository.getRecipe(id);
 				loadRecipeHandler.post(new Runnable() {
 
 					@Override
@@ -133,9 +136,9 @@ public final class ViewRecipeActivity extends Activity implements OnSlideListene
 		if (recipe != null && recipe.getId() > 0) {
 			recipe.setIsFavorite(!recipe.getIsFavorite());
 			if (recipe.getIsFavorite()) {
-				Helpers.getDataHelper().RecipesRepository.addFavorite(recipe.getId());
+				repository.addFavorite(recipe.getId());
 			} else {
-				Helpers.getDataHelper().RecipesRepository.removeFavorite(recipe.getId());
+				repository.removeFavorite(recipe.getId());
 			}
 		}
 	}
@@ -161,7 +164,7 @@ public final class ViewRecipeActivity extends Activity implements OnSlideListene
 				@Override
 				public void onClick(View v) {
 					recipe.setUserNotes(edit.getText().toString());
-					Helpers.getDataHelper().RecipesRepository.setRecipeNote(recipe.getId(), recipe.getUserNotes());
+					repository.setRecipeNote(recipe.getId(), recipe.getUserNotes());
 					alertDialog.dismiss();
 				}
 			});
@@ -218,20 +221,20 @@ public final class ViewRecipeActivity extends Activity implements OnSlideListene
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.mi_favorite:
-			onFavoriteClick();
-			return true;
-		case R.id.mi_notes:
-			onViewNotes();
-			return true;
-		case R.id.mi_share:
-			onShare();
-			return true;
-			// case R.id.mi_rate:
-			// onRate();
-			// return true;
-		default:
-			return false;
+			case R.id.mi_favorite:
+				onFavoriteClick();
+				return true;
+			case R.id.mi_notes:
+				onViewNotes();
+				return true;
+			case R.id.mi_share:
+				onShare();
+				return true;
+				// case R.id.mi_rate:
+				// onRate();
+				// return true;
+			default:
+				return false;
 		}
 	}
 

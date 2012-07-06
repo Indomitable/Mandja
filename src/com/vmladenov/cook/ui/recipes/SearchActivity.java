@@ -11,6 +11,7 @@ import android.widget.ListView;
 import com.vmladenov.cook.R;
 import com.vmladenov.cook.core.Helpers;
 import com.vmladenov.cook.core.adapters.SmallPreviewListAdapter;
+import com.vmladenov.cook.core.db.RecipesRepository;
 import com.vmladenov.cook.domain.PreviewListItem;
 
 public class SearchActivity extends ListActivity {
@@ -27,8 +28,8 @@ public class SearchActivity extends ListActivity {
 	}
 
 	private void ProcessQuery(String query) {
-		SmallPreviewListAdapter adapter = new SmallPreviewListAdapter(this,
-				Helpers.getDataHelper().RecipesRepository.searchRecipes(query));
+		RecipesRepository repository = Helpers.getDataHelper().getRecipesRepository();
+		SmallPreviewListAdapter adapter = new SmallPreviewListAdapter(this, repository.searchRecipes(query));
 		setListAdapter(adapter);
 	}
 
@@ -42,21 +43,4 @@ public class SearchActivity extends ListActivity {
 		intent.putExtra("RECIPE_ID", bundle);
 		startActivity(intent);
 	}
-
-	// private StringBuilder inputStreamToString(InputStream is) throws
-	// IOException {
-	// String line = "";
-	// StringBuilder total = new StringBuilder();
-	//
-	// // Wrap a BufferedReader around the InputStream
-	// BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-	//
-	// // Read response until the end
-	// while ((line = rd.readLine()) != null) {
-	// total.append(line);
-	// }
-	//
-	// // Return full string
-	// return total;
-	// }
 }

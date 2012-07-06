@@ -44,6 +44,8 @@ public final class MainActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
+		Helpers.getDataHelper().checkDb(MainActivity.this);
+
 		MainActivityState state = (MainActivityState) getLastNonConfigurationInstance();
 		if (state == null || state.recipe == null)
 			getRecipeOfTheDay();
@@ -59,7 +61,7 @@ public final class MainActivity extends Activity
 			@Override
 			public void run()
 			{
-				recipeOfTheDay = Helpers.getDataHelper().RecipesRepository.getRecipeOfTheDay();
+				recipeOfTheDay = Helpers.getDataHelper().getRecipesRepository().getRecipeOfTheDay();
 				runOnUiThread(new Runnable()
 				{
 					@Override
@@ -187,16 +189,16 @@ public final class MainActivity extends Activity
 	{
 		switch (item.getItemId())
 		{
-		case R.id.miAbout:
-			showAbout();
-			return true;
-		case R.id.miSettings:
-			Intent intent = new Intent();
-			intent.setClass(MainActivity.this, SettingsActivity.class);
-			startActivity(intent);
-			return true;
-		default:
-			return super.onMenuItemSelected(featureId, item);
+			case R.id.miAbout:
+				showAbout();
+				return true;
+			case R.id.miSettings:
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				return true;
+			default:
+				return super.onMenuItemSelected(featureId, item);
 		}
 	}
 

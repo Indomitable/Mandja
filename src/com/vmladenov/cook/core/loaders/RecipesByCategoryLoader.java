@@ -3,6 +3,7 @@ package com.vmladenov.cook.core.loaders;
 import java.util.ArrayList;
 
 import com.vmladenov.cook.core.Helpers;
+import com.vmladenov.cook.core.db.RecipesRepository;
 import com.vmladenov.cook.domain.PreviewListItem;
 
 public class RecipesByCategoryLoader extends ISmallPreviewLoader {
@@ -23,14 +24,14 @@ public class RecipesByCategoryLoader extends ISmallPreviewLoader {
 
 	@Override
 	public ArrayList<PreviewListItem> getNextData() {
+		RecipesRepository repository = Helpers.getDataHelper().getRecipesRepository();
 		switch (type) {
-		case 1:
-			return Helpers.getDataHelper().RecipesRepository.getRecipesByCategory(categoryId);
-		case 2:
-			return Helpers.getDataHelper().RecipesRepository.getRecipesByProducts(products);
-		default:
-			return null;
+			case 1:
+				return repository.getRecipesByCategory(categoryId);
+			case 2:
+				return repository.getRecipesByProducts(products);
+			default:
+				return null;
 		}
-
 	}
 }

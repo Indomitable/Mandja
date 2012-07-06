@@ -18,33 +18,20 @@ public class DataHelper {
 	private static final int DBVersion = 2;
 
 	private SQLiteDatabase db;
-
-	private DatabaseHelper helper;
 	private SQLiteDatabase userDb;
 
-	public RecipesRepository RecipesRepository;
-	public SpicesRepository SpicesRepository;
-	public ProductsRepository ProductsRepository;
-	public DictionaryRepository DictionaryRepository;
-	public AdvicesRepository AdvicesRepository;
-	public ShoppingListsRepository ShoppingListsRepository;
+	public void checkDb(Context context)
+	{
+		DatabaseHelper helper = new DatabaseHelper(context);
+		userDb = helper.getWritableDatabase();
 
-	public DataHelper(Context context) {
-		this.helper = new DatabaseHelper(context);
-		this.userDb = helper.getWritableDatabase();
 		BooleanValue hasBeenCreated = new BooleanValue(false);
-		String path = getDbPath(context, false, hasBeenCreated);
-		this.db = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE);
+		String dbPath = getDbPath(context, false, hasBeenCreated);
+		db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
 		if (!hasBeenCreated.getValue() && !checkDbVersion(db)) {
-			path = getDbPath(context, true, hasBeenCreated);
-			this.db = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE);
+			dbPath = getDbPath(context, true, hasBeenCreated);
+			db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
 		}
-		RecipesRepository = new RecipesRepository(db);
-		SpicesRepository = new SpicesRepository(db);
-		ProductsRepository = new ProductsRepository(db);
-		DictionaryRepository = new DictionaryRepository(db);
-		AdvicesRepository = new AdvicesRepository(db);
-		ShoppingListsRepository = new ShoppingListsRepository(userDb);
 	}
 
 	private String getDbPath(Context context, Boolean forceRecreate, BooleanValue hasBeenCreated) {
@@ -96,13 +83,36 @@ public class DataHelper {
 		}
 	}
 
-	public void close() {
-		this.ShoppingListsRepository.close();
-		if (db.isOpen())
-			db.close();
-		if (userDb.isOpen())
-			userDb.close();
-		helper.close();
+	public RecipesRepository getRecipesRepository() {
+		return new RecipesRepository(db);
 	}
 
+	public SpicesRepository getSpicesRepository() {
+		return new SpicesRepository(db);
+	}
+
+	public ProductsRepository getProductsRepository() {
+		return new ProductsRepository(db);
+	}
+
+	public AdvicesRepository getAdvicesRepository() {
+		return new AdvicesRepository(db);
+	}
+
+	public DictionaryRepository getDictionaryRepository() {
+		return new DictionaryRepository(db);
+	}
+
+	public ShoppingListsRepository getShoppingListsRepository() {
+		return new ShoppingListsRepository(userDb);
+	}
+
+	public void close()
+	{
+		if (userDb.isOpen())
+			userDb.close();
+
+		if (db.isOpen())
+			db.close();
+	}
 }

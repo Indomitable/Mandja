@@ -7,15 +7,33 @@
 		android:layout_height="wrap_content" android:layout_marginLeft="5dip"></TextView>
 	<LinearLayout android:layout_height="wrap_content"
 		android:layout_width="match_parent" android:id="@+id/linearLayout1">
-		<AutoCompleteTextView android:layout_height="wrap_content"
-			android:id="@+id/txtSearchProduct" android:layout_width="fill_parent"
-			android:maxLines="1" android:layout_weight="1" android:text="@string/empty"></AutoCompleteTextView>
-		<ImageView android:layout_height="wrap_content" android:id="@+id/imageView1"
-			android:src="@drawable/add" android:layout_width="wrap_content"
-			android:onClick="onAddItemSearch"></ImageView>
+
+		<AutoCompleteTextView
+		    android:id="@+id/txtSearchProduct"
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:inputType="text"
+		    android:maxLines="1"
+		    android:text="@string/empty" >
+</AutoCompleteTextView>
+
+		<ImageView
+		    android:id="@+id/imageView1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:contentDescription="@string/add"
+		    android:onClick="onAddItemSearch"
+		    android:src="@drawable/add" >
+</ImageView>
 	</LinearLayout>
-	<ListView android:layout_width="match_parent" android:id="@android:id/list"
-		android:layout_height="fill_parent" android:layout_weight="1"></ListView>
+
+	<ListView
+	    android:id="@android:id/list"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1" >
+</ListView>
 	<Button android:id="@+id/button1" android:text="@string/save"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:layout_marginTop="5dip" android:onClick="onSaveShoppingList"></Button>

@@ -4,19 +4,43 @@
 	android:orientation="vertical">
 	<LinearLayout android:layout_height="wrap_content"
 		android:layout_width="match_parent" android:id="@+id/linearLayout1">
-		<ImageView android:layout_height="wrap_content" android:src="@drawable/list"
-			android:layout_marginBottom="5dip" android:layout_marginTop="5dip"
-			android:layout_marginLeft="5dip" android:layout_width="wrap_content"
-			android:id="@+id/imageView1" android:layout_marginRight="5dip"></ImageView>
-		<TextView android:layout_height="wrap_content"
-			android:layout_marginLeft="5dip" android:id="@+id/textView1"
-			android:layout_gravity="center" android:text="@string/enterTitle"
-			android:layout_width="wrap_content" android:textStyle="bold"></TextView>
+
+		<TextView
+		    android:id="@+id/textView1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		    android:layout_marginLeft="5dip"
+		    android:drawableLeft="@drawable/list"
+		    android:gravity="center_vertical"
+		    android:text="@string/enterTitle"
+		    android:textStyle="bold" >
+
+</TextView>
 	</LinearLayout>
 	<EditText android:layout_width="match_parent"
 		android:layout_height="wrap_content" android:text="@string/empty"
-		android:id="@+id/edtTitle"></EditText>
-	<Button android:layout_width="match_parent"
-		android:layout_height="wrap_content" android:text="@string/ok"
-		android:id="@+id/bTitleOk"></Button>
+		android:id="@+id/edtTitle" android:inputType="text"></EditText>
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal" >
+
+		<Button
+		    android:id="@+id/bTitleOk"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:text="@string/ok" />
+
+		<Button
+		    android:id="@+id/bTitleCancel"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:text="@string/cancel" />
+
+	</LinearLayout>
+
 </LinearLayout>

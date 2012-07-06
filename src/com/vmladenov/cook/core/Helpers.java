@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -21,6 +22,7 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 
 import com.vmladenov.cook.CustomApplication;
+import com.vmladenov.cook.R;
 import com.vmladenov.cook.core.db.DataHelper;
 
 public final class Helpers
@@ -97,7 +99,7 @@ public final class Helpers
 
 	public static void saveFile(BitmapDrawable draw, String path)
 	{
-		if (draw == null || draw.getBitmap().getHeight() < 1)
+		if (draw == null || draw.getBitmap() == null || draw.getBitmap().getHeight() < 1)
 			return;
 		try
 		{
@@ -118,8 +120,10 @@ public final class Helpers
 
 	public static void copyDatabase(Context context, OutputStream out) throws IOException
 	{
+		ProgressDialog progressDialog = ProgressDialog.show(context, context.getString(R.string.loading), context.getString(R.string.initialize),
+				false);
 		AssetManager am = context.getAssets();
-		byte[] b = new byte[1024];
+		byte[] b = new byte[4096];
 		ZipInputStream zipStream = new ZipInputStream(am.open("cook.db.zip"));
 		ZipEntry zipEntry = zipStream.getNextEntry();
 		if (zipEntry != null)
@@ -130,6 +134,7 @@ public final class Helpers
 		}
 		zipStream.close();
 		out.close();
+		progressDialog.dismiss();
 	}
 
 }

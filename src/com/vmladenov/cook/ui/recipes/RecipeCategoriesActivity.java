@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.vmladenov.cook.core.Helpers;
+import com.vmladenov.cook.core.db.RecipesRepository;
 import com.vmladenov.cook.core.objects.SimpleView;
 import com.vmladenov.cook.ui.SimpleLinkListActivity;
 
@@ -29,13 +30,15 @@ public final class RecipeCategoriesActivity extends SimpleLinkListActivity<Simpl
 
 	@Override
 	protected ArrayList<SimpleView> getData() {
-		return Helpers.getDataHelper().RecipesRepository.getRecipeCategories(parentId);
+		RecipesRepository repository = Helpers.getDataHelper().getRecipesRepository();
+		return repository.getRecipeCategories(parentId);
 	}
 
 	@Override
 	protected void onListItemClick(ListView parent, View v, int position, long id) {
 		SimpleView parentItem = (SimpleView) this.getListAdapter().getItem(position);
-		Boolean check = Helpers.getDataHelper().RecipesRepository.checkForChildCategories(parentItem.id);
+		RecipesRepository repository = Helpers.getDataHelper().getRecipesRepository();
+		Boolean check = repository.checkForChildCategories(parentItem.id);
 		if (check) {
 			Intent intent = new Intent(this, RecipeCategoriesActivity.class);
 			Bundle bundle = new Bundle();
