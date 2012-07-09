@@ -22,25 +22,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		db.execSQL("DROP TABLE IF EXISTS MY_RECIPES");
+		db.execSQL("DROP TABLE IF EXISTS SHOPPING_LISTS");
+		db.execSQL("DROP TABLE IF EXISTS SHOPPING_LIST_ITEMS");
+		db.execSQL("DROP TABLE IF EXISTS MY_FAVORITE_RECIPES");
+		db.execSQL("DROP TABLE IF EXISTS MY_RECIPE_NOTES");
+		onCreate(db);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		String recipesTableSql = "CREATE TABLE MY_RECIPES ( ID INTEGER PRIMARY KEY,"
-				+ " IMAGE_NAME TEXT, TITLE TEXT, PRODUCTS TEXT, DESCRIPTION TEXT," + " NOTES TEXT ); ";
-
-		String shoppingListsMainTableSql = "CREATE TABLE SHOPPING_LISTS ( ID INTEGER PRIMARY KEY," + " TITLE TEXT, CREATION_DATE DATETIME); ";
-
-		String shoppingListsDetailTableSql = "CREATE TABLE SHOPPING_LIST_ITEMS ( ID INTEGER PRIMARY KEY," + " LIST_ID INTEGER,"
-				+ " TITLE TEXT, ORDER_NUMBER INTEGER, IS_CHECKED INTEGER); ";
-
-		String recipeFavoritesTableSql = "CREATE TABLE MY_FAVORITE_RECIPES ( RECIPE_ID INTEGER PRIMARY KEY ); ";
-		String recipeUserNotesTableSql = "CREATE TABLE MY_RECIPE_NOTES ( RECIPE_ID INTEGER PRIMARY KEY, USER_NOTE TEXT ); ";
-
-		db.execSQL(recipesTableSql);
-		db.execSQL(shoppingListsMainTableSql);
-		db.execSQL(shoppingListsDetailTableSql);
-		db.execSQL(recipeFavoritesTableSql);
-		db.execSQL(recipeUserNotesTableSql);
+		db.execSQL("CREATE TABLE SHOPPING_LISTS ( ID INTEGER PRIMARY KEY, TITLE TEXT, CREATION_DATE DATETIME); ");
+		db.execSQL("CREATE TABLE SHOPPING_LIST_ITEMS ( ID INTEGER PRIMARY KEY, LIST_ID INTEGER, TITLE TEXT, ORDER_NUMBER INTEGER, IS_CHECKED INTEGER);");
 	}
 }
