@@ -85,7 +85,7 @@ public class ImageLoader {
 				return new BitmapDrawable(cacheDir + "/" + imageName);
 			} else {
 				if (Helpers.isOnline(context)) {
-					BitmapDrawable draw = Helpers.getImage(imageUrl);
+					BitmapDrawable draw = Helpers.getImage(context, imageUrl);
 					Helpers.saveFile(draw, cacheDir + "/" + imageName);
 					return draw;
 				} else
@@ -93,7 +93,7 @@ public class ImageLoader {
 			}
 		} else {
 			if (Helpers.isOnline(context)) {
-				return Helpers.getImage(imageUrl);
+				return Helpers.getImage(context, imageUrl);
 			} else
 				return null;
 		}

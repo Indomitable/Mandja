@@ -52,7 +52,7 @@ public final class Helpers
 		}
 	}
 
-	public static BitmapDrawable getImage(String url)
+	public static BitmapDrawable getImage(Context context, String url)
 	{
 		try
 		{
@@ -61,7 +61,7 @@ public final class Helpers
 			conn.setDoInput(true);
 			conn.connect();
 			InputStream is = conn.getInputStream();
-			return new BitmapDrawable(is);
+			return new BitmapDrawable(context.getResources(), is);
 			// return BitmapFactory.decodeStream(is);
 
 		} catch (IOException e)
@@ -70,7 +70,7 @@ public final class Helpers
 		return null;
 	}
 
-	public static void setImageFromUrlAsync(IOnImageDownload callback, Context context, final String url)
+	public static void setImageFromUrlAsync(IOnImageDownload callback, final Context context, final String url)
 	{
 		if (url == null || url == "")
 			return;
@@ -84,7 +84,7 @@ public final class Helpers
 			@Override
 			public void ParameterizedRun(IOnImageDownload callback)
 			{
-				final BitmapDrawable draw = Helpers.getImage(url);
+				final BitmapDrawable draw = Helpers.getImage(context, url);
 				handler.post(new ParameterizedRunnable<IOnImageDownload>(callback)
 				{
 					@Override
