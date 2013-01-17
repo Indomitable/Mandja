@@ -26,11 +26,13 @@ import com.vmladenov.cook.core.db.ShoppingListsRepository;
 import com.vmladenov.cook.core.objects.ShoppingList;
 import com.vmladenov.cook.core.objects.ShoppingListItem;
 
-public class NewShoppingListActivity extends ListActivity implements OnKeyListener {
+public class NewShoppingListActivity extends ListActivity implements
+		OnKeyListener {
 	private AutoCompleteTextView autoComplete;
 	private ArrayAdapter<String> listAdapter;
 	private ArrayList<String> items;
 	private String title;
+	private SearchProductAndSpiceAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +45,22 @@ public class NewShoppingListActivity extends ListActivity implements OnKeyListen
 		setTitle(title);
 
 		autoComplete = (AutoCompleteTextView) findViewById(R.id.txtSearchProduct);
-		SearchProductAndSpiceAdapter adapter = new SearchProductAndSpiceAdapter(this);
+		adapter = new SearchProductAndSpiceAdapter(this, Helpers
+				.getDataHelper().getDbPath());
 		autoComplete.setAdapter(adapter);
 		autoComplete.setOnKeyListener(this);
 
-		listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+		listAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1);
 		items = new ArrayList<String>();
 		this.setListAdapter(listAdapter);
 		registerForContextMenu(this.findViewById(android.R.id.list));
+	}
+
+	@Override
+	protected void onDestroy() {
+		adapter.close();
+		super.onDestroy();
 	}
 
 	public void onAddItemSearch(View sender) {
@@ -68,7 +78,8 @@ public class NewShoppingListActivity extends ListActivity implements OnKeyListen
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.list_context_delete, menu);
@@ -76,13 +87,14 @@ public class NewShoppingListActivity extends ListActivity implements OnKeyListen
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
 		switch (item.getItemId()) {
-			case R.id.miDelete:
-				deleteItem(info);
-				return true;
-			default:
-				return super.onContextItemSelected(item);
+		case R.id.miDelete:
+			deleteItem(info);
+			return true;
+		default:
+			return super.onContextItemSelected(item);
 		}
 	}
 
@@ -105,17 +117,19 @@ public class NewShoppingListActivity extends ListActivity implements OnKeyListen
 
 	public void onSaveShoppingList(View sender) {
 		if (items.size() == 0) {
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+					this);
 			alertDialogBuilder.setTitle(R.string.information);
 			alertDialogBuilder.setMessage(R.string.enterProducts);
 			alertDialogBuilder.setIcon(R.drawable.information_icon);
-			alertDialogBuilder.setPositiveButton(R.string.ok, new OnClickListener() {
+			alertDialogBuilder.setPositiveButton(R.string.ok,
+					new OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-			});
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					});
 			AlertDialog dialog = alertDialogBuilder.create();
 			dialog.show();
 			return;
@@ -129,14 +143,16 @@ public class NewShoppingListActivity extends ListActivity implements OnKeyListen
 			item.Title = items.get(i);
 			list.Items.add(item);
 		}
-		ShoppingListsRepository repository = Helpers.getDataHelper().getShoppingListsRepository();
+		ShoppingListsRepository repository = Helpers.getDataHelper()
+				.getShoppingListsRepository();
 		repository.saveShoppingList(list);
 		goToShoppingLists();
 	}
 
 	void goToShoppingLists() {
 		Intent intent = new Intent();
-		intent.setClass(NewShoppingListActivity.this, ShoppingListsActivity.class);
+		intent.setClass(NewShoppingListActivity.this,
+				ShoppingListsActivity.class);
 		startActivity(intent);
 	}
 }

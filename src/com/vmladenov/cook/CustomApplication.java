@@ -33,11 +33,4 @@ public class CustomApplication extends Application {
 	public DataHelper getDataHelper() {
 		return dataHelper;
 	}
-
-	@Override
-	public void onTerminate() {
-		_instance.dataHelper.close();
-		super.onTerminate();
-	}
-
 }

@@ -49,7 +49,8 @@ public class ViewShoppingListActivity extends ListActivity {
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.list_context_delete, menu);
@@ -57,49 +58,50 @@ public class ViewShoppingListActivity extends ListActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
 		switch (item.getItemId()) {
-			case R.id.miDelete:
-				ShoppingListItem listItem = (ShoppingListItem) getListAdapter().getItem(
-						info.position);
-				Helpers.getDataHelper().getShoppingListsRepository().deleteListItem(listItem.ID);
-				loadList(id);
-				return true;
-			default:
-				return super.onContextItemSelected(item);
+		case R.id.miDelete:
+			ShoppingListItem listItem = (ShoppingListItem) getListAdapter()
+					.getItem(info.position);
+			Helpers.getDataHelper().getShoppingListsRepository()
+					.deleteListItem(listItem.ID);
+			loadList(id);
+			return true;
+		default:
+			return super.onContextItemSelected(item);
 		}
 	}
 
-	public boolean onCreateOptionsMenu(android.view.Menu menu)
-	{
+	public boolean onCreateOptionsMenu(android.view.Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.add_new_product_menu, menu);
 		return true;
 	};
 
-	public boolean onMenuItemSelected(int featureId, MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-			case R.id.miAddNewProduct:
-				showAddNewProductDialog();
-				return true;
-			default:
-				return super.onMenuItemSelected(featureId, item);
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.miAddNewProduct:
+			showAddNewProductDialog();
+			return true;
+		default:
+			return super.onMenuItemSelected(featureId, item);
 		}
 	};
 
-	public void showAddNewProductDialog()
-	{
-		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+	public void showAddNewProductDialog() {
+		LayoutInflater inflater = (LayoutInflater) this
+				.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.new_item_shopping_list, null);
 
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		alertDialogBuilder.setView(view);
 		final AlertDialog dialog = alertDialogBuilder.create();
 
-		final AutoCompleteTextView autoComplete = (AutoCompleteTextView) view.findViewById(R.id.txtSearchProduct);
-		SearchProductAndSpiceAdapter adapter = new SearchProductAndSpiceAdapter(this);
+		final AutoCompleteTextView autoComplete = (AutoCompleteTextView) view
+				.findViewById(R.id.txtSearchProduct);
+		final SearchProductAndSpiceAdapter adapter = new SearchProductAndSpiceAdapter(
+				this, Helpers.getDataHelper().getDbPath());
 		autoComplete.setAdapter(adapter);
 
 		Button buttonOk = (Button) view.findViewById(R.id.bAddItem);
@@ -108,13 +110,14 @@ public class ViewShoppingListActivity extends ListActivity {
 			public void onClick(View v) {
 				String title = autoComplete.getText().toString();
 				if (title.length() > 0) {
-					Helpers.getDataHelper().getShoppingListsRepository().insertListItem(id, title);
+					Helpers.getDataHelper().getShoppingListsRepository()
+							.insertListItem(id, title);
 					loadList(id);
 				}
+				adapter.close();
 				dialog.dismiss();
 			}
 		});
-
 		dialog.show();
 	}
 
@@ -133,7 +136,8 @@ public class ViewShoppingListActivity extends ListActivity {
 
 			@Override
 			public void run() {
-				list = Helpers.getDataHelper().getShoppingListsRepository().getShoppingList(id);
+				list = Helpers.getDataHelper().getShoppingListsRepository()
+						.getShoppingList(id);
 				loadHandler.post(new Runnable() {
 
 					@Override
@@ -159,9 +163,11 @@ public class ViewShoppingListActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		CheckedTextView textview = (CheckedTextView) v;
 		textview.setChecked(!textview.isChecked());
-		ShoppingListItem item = (ShoppingListItem) getListAdapter().getItem(position);
+		ShoppingListItem item = (ShoppingListItem) getListAdapter().getItem(
+				position);
 		item.IsChecked = textview.isChecked();
-		Helpers.getDataHelper().getShoppingListsRepository().setCheckedListItem(item.ID, item.IsChecked);
+		Helpers.getDataHelper().getShoppingListsRepository()
+				.setCheckedListItem(item.ID, item.IsChecked);
 	}
 
 	public class ShoppingListAdapter extends ArrayAdapter<ShoppingListItem> {

@@ -3,43 +3,50 @@ package com.vmladenov.cook.core.db;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
+import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
 import com.vmladenov.cook.core.BooleanValue;
-import com.vmladenov.cook.core.Helpers;
+import com.vmladenov.cook.core.CopyDatabase;
 
 public class DataHelper {
 	private static final String DATABASE_NAME = "cook.db";
 	private static final int DBVersion = 2;
 
-	private SQLiteDatabase db;
-	private SQLiteDatabase userDb;
+	private String dbPath;
+	private String userDbPath;
 
-	public void checkDb(Context context)
-	{
+	public void checkDb(Context context) {
 		DatabaseHelper helper = new DatabaseHelper(context);
-		userDb = helper.getWritableDatabase();
-
+		SQLiteDatabase userDb = helper.getWritableDatabase();
 		BooleanValue hasBeenCreated = new BooleanValue(false);
 		String dbPath = getDbPath(context, false, hasBeenCreated);
-		db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
-		if (!hasBeenCreated.getValue() && !checkDbVersion(db)) {
+		SQLiteDatabase db = SQLiteDatabase.openDatabase(dbPath, null,
+				SQLiteDatabase.OPEN_READWRITE);
+		if (!hasBeenCreated.getValue() && !checkDbVersion(dbPath)) {
 			dbPath = getDbPath(context, true, hasBeenCreated);
-			db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+			db = SQLiteDatabase.openDatabase(dbPath, null,
+					SQLiteDatabase.OPEN_READWRITE);
 		}
+		db.close();
+		this.dbPath = dbPath;
+		this.userDbPath = userDb.getPath();
+		userDb.close();
 	}
 
-	private String getDbPath(Context context, Boolean forceRecreate, BooleanValue hasBeenCreated) {
+	private String getDbPath(Context context, Boolean forceRecreate,
+			BooleanValue hasBeenCreated) {
 		String state = Environment.getExternalStorageState();
 		// If there is a storage card copy to it , if there is not copy to
 		// database directory
-		if (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-			String dbPath = context.getExternalFilesDir(null) + "/" + DATABASE_NAME;
+		if (Environment.MEDIA_MOUNTED.equals(state)
+				|| Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+			String dbPath = context.getExternalFilesDir(null) + "/"
+					+ DATABASE_NAME;
 			File file = new File(dbPath);
 			if (forceRecreate || !file.exists()) {
 				try {
@@ -55,7 +62,8 @@ public class DataHelper {
 			File file = new File(filePath);
 			if (forceRecreate || !file.exists()) {
 				try {
-					createDatabase(context, context.openFileOutput(DATABASE_NAME, Context.MODE_PRIVATE));
+					createDatabase(context, context.openFileOutput(
+							DATABASE_NAME, Context.MODE_PRIVATE));
 					hasBeenCreated = new BooleanValue(true);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
@@ -65,10 +73,10 @@ public class DataHelper {
 		}
 	}
 
-	private Boolean checkDbVersion(SQLiteDatabase db) {
+	private Boolean checkDbVersion(String dbPath) {
 		try {
 			String sql = "SELECT VERSION FROM DB_VERSION";
-			Integer version = SQLHelper.ExecuteScalarIntSql(sql, db);
+			Integer version = SQLHelper.ExecuteScalarIntSql(sql, dbPath);
 			return version == DBVersion;
 		} catch (Exception e) {
 			return false;
@@ -77,42 +85,44 @@ public class DataHelper {
 
 	private void createDatabase(Context context, OutputStream out) {
 		try {
-			Helpers.copyDatabase(context, out);
-		} catch (IOException e) {
+			// ProgressDialog progressDialog = ProgressDialog.show(context,
+			// context.getString(com.vmladenov.cook.R.string.loading),
+			// context.getString(com.vmladenov.cook.R.string.initialize));
+			CopyDatabase copy = new CopyDatabase(context);
+			copy.execute(out);
+			copy.get();
+			// progressDialog.dismiss();
+			// Helpers.copyDatabase(context, out);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public RecipesRepository getRecipesRepository() {
-		return new RecipesRepository(db);
+		return new RecipesRepository(dbPath);
 	}
 
 	public SpicesRepository getSpicesRepository() {
-		return new SpicesRepository(db);
+		return new SpicesRepository(dbPath);
 	}
 
 	public ProductsRepository getProductsRepository() {
-		return new ProductsRepository(db);
+		return new ProductsRepository(dbPath);
 	}
 
 	public AdvicesRepository getAdvicesRepository() {
-		return new AdvicesRepository(db);
-	}
-
-	public DictionaryRepository getDictionaryRepository() {
-		return new DictionaryRepository(db);
+		return new AdvicesRepository(dbPath);
 	}
 
 	public ShoppingListsRepository getShoppingListsRepository() {
-		return new ShoppingListsRepository(userDb);
+		return new ShoppingListsRepository(userDbPath);
 	}
 
-	public void close()
-	{
-		if (userDb.isOpen())
-			userDb.close();
-
-		if (db.isOpen())
-			db.close();
+	public String getDbPath() {
+		return dbPath;
 	}
 }

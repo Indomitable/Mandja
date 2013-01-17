@@ -8,13 +8,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
@@ -22,7 +18,6 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 
 import com.vmladenov.cook.CustomApplication;
-import com.vmladenov.cook.R;
 import com.vmladenov.cook.core.db.DataHelper;
 
 public final class Helpers
@@ -72,7 +67,7 @@ public final class Helpers
 
 	public static void setImageFromUrlAsync(IOnImageDownload callback, final Context context, final String url)
 	{
-		if (url == null || url == "")
+		if (url == null || url.equals(""))
 			return;
 		if (!Helpers.isOnline(context)) {
 			return;
@@ -118,23 +113,66 @@ public final class Helpers
 		}
 	}
 
-	public static void copyDatabase(Context context, OutputStream out) throws IOException
-	{
-		ProgressDialog progressDialog = ProgressDialog.show(context, context.getString(R.string.loading), context.getString(R.string.initialize),
-				false);
-		AssetManager am = context.getAssets();
-		byte[] b = new byte[4096];
-		ZipInputStream zipStream = new ZipInputStream(am.open("cook.db.zip"));
-		ZipEntry zipEntry = zipStream.getNextEntry();
-		if (zipEntry != null)
-		{
-			for (int r = zipStream.read(b); r != -1; r = zipStream.read(b))
-				out.write(b, 0, r);
-			zipStream.closeEntry();
-		}
-		zipStream.close();
-		out.close();
-		progressDialog.dismiss();
-	}
-
+	// static ProgressDialog progressDialog;
+	//
+	// static Handler copyDbHandler = new Handler() {
+	// public void handleMessage(android.os.Message msg) {
+	//
+	// if (msg.what == 1)
+	// {
+	// Context context = (Context) msg.obj;
+	// progressDialog = ProgressDialog.show(context, context.getString(R.string.loading), context.getString(R.string.initialize),
+	// false);
+	// }
+	// if (msg.what == 2)
+	// {
+	//
+	// if (progressDialog != null)
+	// progressDialog.dismiss();
+	// }
+	// };
+	// };
+	//
+	// public static void copyDatabase(final Context context, final OutputStream out) throws IOException, InterruptedException
+	// {
+	// Thread proces = new Thread(new Runnable() {
+	//
+	// @Override
+	// public void run() {
+	// Message msg = new Message();
+	// msg.obj = context;
+	// msg.what = 1;
+	// copyDbHandler.sendMessage(msg);
+	//
+	// }
+	// });
+	// proces.start();
+	// // Thread copyThread = new Thread(new Runnable() {
+	// // @Override
+	// // public void run() {
+	// // try {
+	//
+	// AssetManager am = context.getAssets();
+	// byte[] b = new byte[4096];
+	// ZipInputStream zipStream = new ZipInputStream(am.open("cook.db.zip"));
+	// ZipEntry zipEntry = zipStream.getNextEntry();
+	// if (zipEntry != null)
+	// {
+	// for (int r = zipStream.read(b); r != -1; r = zipStream.read(b))
+	// out.write(b, 0, r);
+	// zipStream.closeEntry();
+	// }
+	// zipStream.close();
+	// out.close();
+	//
+	// progressDialog.dismiss();
+	// // copyDbHandler.sendEmptyMessage(0);
+	// // } catch (IOException e) {
+	// // e.printStackTrace();
+	// // }
+	// // }
+	// // });
+	// // copyThread.start();
+	//
+	// }
 }

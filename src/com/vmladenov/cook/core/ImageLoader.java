@@ -1,7 +1,6 @@
 package com.vmladenov.cook.core;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Stack;
 
 import android.app.Activity;
@@ -9,6 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
+import android.util.SparseArray;
 import android.widget.ImageView;
 
 import com.vmladenov.cook.R;
@@ -17,7 +17,7 @@ import com.vmladenov.cook.domain.PreviewListItem;
 public class ImageLoader {
 	// the simplest in-memory cache implementation. This should be replaced with
 	// something like SoftReference or BitmapOptions.inPurgeable(since 1.6)
-	private HashMap<PreviewListItem, BitmapDrawable> cache = new HashMap<PreviewListItem, BitmapDrawable>();
+	private SparseArray<BitmapDrawable> cache = new SparseArray<BitmapDrawable>();
 
 	private File cacheDir;
 
@@ -29,7 +29,8 @@ public class ImageLoader {
 		this.context = context;
 		photoLoaderThread.setPriority(Thread.NORM_PRIORITY - 1);
 		cacheDir = getCacheDir();
-		SharedPreferences preferences = context.getSharedPreferences("MandjaSettings", Context.MODE_PRIVATE);
+		SharedPreferences preferences = context.getSharedPreferences(
+				"MandjaSettings", Context.MODE_PRIVATE);
 		cacheImages = preferences.getBoolean("CacheImages", true);
 		downloadThumbnails = preferences.getBoolean("DownloadThumbnails", true);
 	}
@@ -50,10 +51,9 @@ public class ImageLoader {
 	final int stub_id = R.drawable.icon;
 
 	public void DisplayImage(PreviewListItem preview, ImageView imageView) {
-		if (cache.containsKey(preview)) {
-			if (cache.get(preview) == null)
-				return;
-			imageView.setImageDrawable(cache.get(preview));
+		BitmapDrawable draw = cache.get(preview.getId());
+		if (draw != null) {
+			imageView.setImageDrawable(draw);
 		} else {
 			queuePhoto(preview, imageView);
 			imageView.setImageResource(stub_id);
@@ -79,7 +79,8 @@ public class ImageLoader {
 		if (!downloadThumbnails)
 			return null;
 		if (cacheImages && cacheDir != null) {
-			String imageName = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
+			String imageName = imageUrl
+					.substring(imageUrl.lastIndexOf('/') + 1);
 			File file = new File(cacheDir, imageName);
 			if (file.exists()) {
 				return new BitmapDrawable(cacheDir + "/" + imageName);
@@ -151,14 +152,19 @@ public class ImageLoader {
 						synchronized (photosQueue.photosToLoad) {
 							photoToLoad = photosQueue.photosToLoad.pop();
 						}
-						BitmapDrawable draw = getBitmap(photoToLoad.preview.getThumbnailUrl());
-						cache.put(photoToLoad.preview, draw);
+						BitmapDrawable draw = getBitmap(photoToLoad.preview
+								.getThumbnailUrl());
 						if (draw == null)
 							continue;
+						cache.put(photoToLoad.preview.getId(), draw);
 						Object tag = photoToLoad.imageView.getTag();
-						if (tag != null && ((PreviewListItem) tag).equals(photoToLoad.preview)) {
-							BitmapDisplayer bd = new BitmapDisplayer(draw, photoToLoad.imageView);
-							Activity a = (Activity) photoToLoad.imageView.getContext();
+						if (tag != null
+								&& ((PreviewListItem) tag)
+										.equals(photoToLoad.preview)) {
+							BitmapDisplayer bd = new BitmapDisplayer(draw,
+									photoToLoad.imageView);
+							Activity a = (Activity) photoToLoad.imageView
+									.getContext();
 							a.runOnUiThread(bd);
 						}
 					}

@@ -2,8 +2,6 @@ package com.vmladenov.cook.core.db;
 
 import java.util.ArrayList;
 
-import android.database.sqlite.SQLiteDatabase;
-
 import com.vmladenov.cook.core.converters.ShoppingListConverter;
 import com.vmladenov.cook.core.converters.ShoppingListItemConverter;
 import com.vmladenov.cook.core.objects.ShoppingList;
@@ -32,63 +30,64 @@ public class ShoppingListsRepository {
 			+ "(ID, LIST_ID, TITLE, ORDER_NUMBER, IS_CHECKED) "
 			+ "VALUES ((SELECT MAX(ID) FROM SHOPPING_LIST_ITEMS) + 1, ?, ?, ?, 0)";
 
-	private SQLiteDatabase db;
+	private String dbPath;
 
-	public ShoppingListsRepository(SQLiteDatabase db) {
-		this.db = db;
+	public ShoppingListsRepository(String dbPath) {
+		this.dbPath = dbPath;
 	}
 
 	public void saveShoppingList(ShoppingList list) {
-		db.beginTransaction();
-		try {
-			SQLHelper.ExecuteNonQuery(INSERT_SHOPPING_LIST, db, list.Title);
-			int id = SQLHelper.ExecuteScalarIntSql("SELECT MAX(ID) FROM SHOPPING_LISTS", db);
-			for (int i = 0; i < list.Items.size(); i++) {
-				ShoppingListItem item = list.Items.get(i);
-				SQLHelper.ExecuteNonQuery(INSERT_SHOPPING_ITEM, db, id, item.Title, i);
-			}
-			db.setTransactionSuccessful();
-		} finally {
-			db.endTransaction();
+		SQLHelper.ExecuteNonQuery(INSERT_SHOPPING_LIST, dbPath, list.Title);
+		int id = SQLHelper.ExecuteScalarIntSql(
+				"SELECT MAX(ID) FROM SHOPPING_LISTS", dbPath);
+		for (int i = 0; i < list.Items.size(); i++) {
+			ShoppingListItem item = list.Items.get(i);
+			SQLHelper.ExecuteNonQuery(INSERT_SHOPPING_ITEM, dbPath, id,
+					item.Title, i);
 		}
 	}
 
 	public ArrayList<ShoppingList> getShoppingLists() {
-		return SQLHelper.ExecuteSql(SELECT_SHOPPING_LISTS, db, new ShoppingListConverter());
+		return SQLHelper.ExecuteSql(SELECT_SHOPPING_LISTS, dbPath,
+				new ShoppingListConverter());
 	}
 
 	public ShoppingList getShoppingList(long id) {
 		String sql = String.format(SELECT_SHOPPING_LIST, id);
 		String sqlItem = String.format(SELECT_SHOPPING_LIST_ITEMS, id);
-		ShoppingList list = SQLHelper.ExecuteSingleSql(sql, db, new ShoppingListConverter());
-		list.Items = SQLHelper.ExecuteSql(sqlItem, db, new ShoppingListItemConverter());
+		ShoppingList list = SQLHelper.ExecuteSingleSql(sql, dbPath,
+				new ShoppingListConverter());
+		list.Items = SQLHelper.ExecuteSql(sqlItem, dbPath,
+				new ShoppingListItemConverter());
 		return list;
 	}
 
 	public void setCheckedListItem(long id, Boolean isChecked) {
 		int checked = isChecked ? 1 : 0;
 		String sql = String.format(UPDATE_LIST_ITEM_CHECKED, checked, id);
-		SQLHelper.ExecuteNonQuery(sql, db);
+		SQLHelper.ExecuteNonQuery(sql, dbPath);
 	}
 
 	public void deleteList(long id) {
 		String sql = String.format(DELETE_LIST, id);
 		sql = String.format(DELETE_LIST_ITEMS, id);
-		SQLHelper.ExecuteNonQuery(sql, db);
-		SQLHelper.ExecuteNonQuery(sql, db);
+		SQLHelper.ExecuteNonQuery(sql, dbPath);
+		SQLHelper.ExecuteNonQuery(sql, dbPath);
 	}
 
 	public void deleteListItem(long id) {
 		String sql = String.format(DELETE_LIST_ITEM, id);
-		SQLHelper.ExecuteNonQuery(sql, db);
+		SQLHelper.ExecuteNonQuery(sql, dbPath);
 	}
 
 	public void insertListItem(long id, String title) {
-		Integer orderNumber = SQLHelper.ExecuteScalarIntSql(MAX_SHOPPING_LIST_ITEM_ORDER, db, Long.toString(id));
+		Integer orderNumber = SQLHelper.ExecuteScalarIntSql(
+				MAX_SHOPPING_LIST_ITEM_ORDER, dbPath, Long.toString(id));
 		if (orderNumber == null)
 			orderNumber = 0;
 		orderNumber++;
-		SQLHelper.ExecuteNonQuery(INSERT_SHOPPING_ITEM, db, id, title, orderNumber);
+		SQLHelper.ExecuteNonQuery(INSERT_SHOPPING_ITEM, dbPath, id, title,
+				orderNumber);
 	}
 
 }

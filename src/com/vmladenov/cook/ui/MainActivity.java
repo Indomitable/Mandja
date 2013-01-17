@@ -29,7 +29,6 @@ import com.vmladenov.cook.ui.recipes.FavoriteRecipesActivity;
 import com.vmladenov.cook.ui.recipes.RecipeCategoriesActivity;
 import com.vmladenov.cook.ui.recipes.ViewRecipeActivity;
 import com.vmladenov.cook.ui.useful.AdvicesActivity;
-import com.vmladenov.cook.ui.useful.DictionaryActivity;
 import com.vmladenov.cook.ui.useful.ProductsActivity;
 import com.vmladenov.cook.ui.useful.SpicesActivity;
 
@@ -43,7 +42,6 @@ public final class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
 		Helpers.getDataHelper().checkDb(MainActivity.this);
 
 		MainActivityState state = (MainActivityState) getLastNonConfigurationInstance();
@@ -151,13 +149,6 @@ public final class MainActivity extends Activity
 	{
 		Intent intent = new Intent();
 		intent.setClass(MainActivity.this, ProductsActivity.class);
-		startActivity(intent);
-	}
-
-	public void onDictionaryClick(View v)
-	{
-		Intent intent = new Intent();
-		intent.setClass(MainActivity.this, DictionaryActivity.class);
 		startActivity(intent);
 	}
 
