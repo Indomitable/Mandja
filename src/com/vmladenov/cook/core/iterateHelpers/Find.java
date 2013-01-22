@@ -19,8 +19,32 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.vmladenov.cook.core;
+package com.vmladenov.cook.core.iterateHelpers;
 
-public interface OnProgressUpdateListener {
-    void updateProgress(int progress);
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
+public class Find {
+
+    public static <T> T firstOrDefault(Iterable<T> iterable, IPredicate<T> predicate) {
+        Iterator<T> iterator = iterable.iterator();
+        while (iterable.iterator().hasNext()) {
+            T next = iterable.iterator().next();
+            if (predicate.predicate(next))
+                return next;
+        }
+        return null;
+    }
+
+    public static <T> Collection<T> where(Iterable<T> iterable, IPredicate<T> predicate){
+        ArrayList<T> list = new ArrayList<T>();
+        Iterator<T> iterator = iterable.iterator();
+        while (iterator.hasNext()) {
+            T next = iterator.next();
+            if (predicate.predicate(next))
+                list.add(next);
+        }
+        return list;
+    }
 }

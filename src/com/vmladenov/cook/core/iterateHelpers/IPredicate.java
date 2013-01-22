@@ -19,8 +19,8 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.vmladenov.cook.core;
+package com.vmladenov.cook.core.iterateHelpers;
 
-public interface OnProgressUpdateListener {
-    void updateProgress(int progress);
+public interface IPredicate<T> {
+    public boolean predicate(T value);
 }

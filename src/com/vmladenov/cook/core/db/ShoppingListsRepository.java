@@ -1,11 +1,32 @@
-package com.vmladenov.cook.core.db;
+/*
+ * Copyright (C) 2011 Ventsislav Mladenov <ventsislav dot mladenov at gmail dot com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+ * Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR
+ * A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
-import java.util.ArrayList;
+package com.vmladenov.cook.core.db;
 
 import com.vmladenov.cook.core.converters.ShoppingListConverter;
 import com.vmladenov.cook.core.converters.ShoppingListItemConverter;
 import com.vmladenov.cook.core.objects.ShoppingList;
 import com.vmladenov.cook.core.objects.ShoppingListItem;
+
+import java.util.ArrayList;
 
 public class ShoppingListsRepository {
 
@@ -69,10 +90,10 @@ public class ShoppingListsRepository {
 	}
 
 	public void deleteList(long id) {
-		String sql = String.format(DELETE_LIST, id);
-		sql = String.format(DELETE_LIST_ITEMS, id);
-		SQLHelper.ExecuteNonQuery(sql, dbPath);
-		SQLHelper.ExecuteNonQuery(sql, dbPath);
+		String sqlListDelete = String.format(DELETE_LIST, id);
+        String sqlListItemsDelete = String.format(DELETE_LIST_ITEMS, id);
+		SQLHelper.ExecuteNonQuery(sqlListItemsDelete, dbPath);
+		SQLHelper.ExecuteNonQuery(sqlListDelete, dbPath);
 	}
 
 	public void deleteListItem(long id) {

@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent" android:layout_height="match_parent"
-	android:orientation="vertical" android:background="#fff0f0f0">
-	<TextView android:layout_height="wrap_content" android:id="@+id/textView1"
-		android:text="@string/addProductOrSpice" android:layout_width="wrap_content"
-		android:textStyle="bold"></TextView>
-	<LinearLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/linearLayout1">
-		<AutoCompleteTextView android:layout_height="wrap_content" android:id="@+id/txtSearchProduct" android:layout_width="fill_parent" android:maxLines="1" android:layout_weight="1" android:textColor="@android:color/black"></AutoCompleteTextView>
-		<ImageView android:layout_height="wrap_content" android:id="@+id/imageView1" android:src="@drawable/search_add" android:layout_width="wrap_content" android:onClick="onAddItemSearch"></ImageView>
-	</LinearLayout>
-	<ListView android:layout_width="match_parent" android:id="@android:id/list" android:layout_height="fill_parent" android:layout_weight="1"></ListView>
-	<Button android:id="@+id/button1" android:text="@string/search" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5dip" android:onClick="onSearchRecipes"></Button>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff0f0f0">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        android:text="@string/addProductOrSpice"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"></TextView>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/linearLayout1">
+
+        <AutoCompleteTextView
+            android:layout_height="wrap_content"
+            android:id="@+id/txtSearchProduct"
+            android:layout_width="fill_parent"
+            android:maxLines="1"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"></AutoCompleteTextView>
+
+        <ImageView
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView1"
+            android:src="@drawable/search_add"
+            android:layout_width="wrap_content"
+            android:onClick="onAddItemSearch"></ImageView>
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:id="@android:id/list"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"></ListView>
+
+    <Button
+        android:id="@+id/button1"
+        android:text="@string/search"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:onClick="onSearchRecipes"></Button>
 </LinearLayout>
