@@ -72,4 +72,8 @@
     <string name="image">Снимка</string>
     <string name="add">Добави</string>
     <string name="initialize">Инициализиране</string>
+    <string name="copy_db">Копиране на базата ...</string>
+    <string name="prepare_time">Подготовка:</string>
+    <string name="cook_time">Готвене:</string>
+    <string name="portions">Порции:</string>
 </resources>

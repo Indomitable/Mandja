@@ -35,60 +35,49 @@ import java.util.concurrent.ExecutionException;
 
 public class DataHelper {
 	private static final String DATABASE_NAME = "cook.db";
-	private static final int DBVersion = 2;
+	private static final int DBVersion = 4;
 
 	private String dbPath;
 	private String userDbPath;
 
-	public void checkDb(Context context) {
-		DatabaseHelper helper = new DatabaseHelper(context);
-		SQLiteDatabase userDb = helper.getWritableDatabase();
-		BooleanValue hasBeenCreated = new BooleanValue(false);
-		String dbPath = getDbPath(context, false, hasBeenCreated);
-		SQLiteDatabase db = SQLiteDatabase.openDatabase(dbPath, null,
-				SQLiteDatabase.OPEN_READWRITE);
-		if (!hasBeenCreated.getValue() && !checkDbVersion(dbPath)) {
-			dbPath = getDbPath(context, true, hasBeenCreated);
-			db = SQLiteDatabase.openDatabase(dbPath, null,
-					SQLiteDatabase.OPEN_READWRITE);
-		}
-		db.close();
-		this.dbPath = dbPath;
-		this.userDbPath = userDb.getPath();
-		userDb.close();
-	}
+    public void initUserDb(Context context){
+        DatabaseHelper helper = new DatabaseHelper(context);
+        SQLiteDatabase userDb = helper.getWritableDatabase();
+        this.userDbPath = userDb.getPath();
+        userDb.close();
+    }
 
-	private String getDbPath(Context context, Boolean forceRecreate,
-			BooleanValue hasBeenCreated) {
+    public boolean checkDb(Context context){
+        this.dbPath = getDbPath(context);
+        if (dbPath.equals(""))
+            return false;
+        return checkDbVersion(dbPath);
+    }
+
+    private String getDbPath(Context context) {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            String dbPath = context.getExternalFilesDir(null) + "/" + DATABASE_NAME;
+            File file = new File(dbPath);
+            if (!file.exists())
+                return "";
+            return dbPath;
+        } else {
+            String filePath = context.getFilesDir() + "/" + DATABASE_NAME;
+            File file = new File(filePath);
+            if (!file.exists())
+                return "";
+            return file.getAbsolutePath();
+        }
+    }
+
+	public String getDbPathForCopy(Context context) {
 		String state = Environment.getExternalStorageState();
-		// If there is a storage card copy to it , if there is not copy to
-		// database directory
-		if (Environment.MEDIA_MOUNTED.equals(state)
-				|| Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-			String dbPath = context.getExternalFilesDir(null) + "/"
-					+ DATABASE_NAME;
-			File file = new File(dbPath);
-			if (forceRecreate || !file.exists()) {
-				try {
-					createDatabase(context, new FileOutputStream(dbPath));
-					hasBeenCreated.setValue(true);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-			}
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
 			return context.getExternalFilesDir(null) + "/" + DATABASE_NAME;
 		} else {
 			String filePath = context.getFilesDir() + "/" + DATABASE_NAME;
 			File file = new File(filePath);
-			if (forceRecreate || !file.exists()) {
-				try {
-					createDatabase(context, context.openFileOutput(
-							DATABASE_NAME, Context.MODE_PRIVATE));
-					hasBeenCreated.setValue(true);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-			}
 			return file.getAbsolutePath();
 		}
 	}
@@ -100,25 +89,6 @@ public class DataHelper {
 			return version == DBVersion;
 		} catch (Exception e) {
 			return false;
-		}
-	}
-
-	private void createDatabase(Context context, OutputStream out) {
-		try {
-			// ProgressDialog progressDialog = ProgressDialog.show(context,
-			// context.getString(com.vmladenov.cook.R.string.loading),
-			// context.getString(com.vmladenov.cook.R.string.initialize));
-			CopyDatabase copy = new CopyDatabase(context);
-			copy.execute(out);
-			copy.get();
-			// progressDialog.dismiss();
-			// Helpers.copyDatabase(context, out);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 

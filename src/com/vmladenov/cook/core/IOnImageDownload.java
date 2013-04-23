@@ -21,9 +21,9 @@
 
 package com.vmladenov.cook.core;
 
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.BitmapDrawable;
 
 public interface IOnImageDownload
 {
-	void ReceiveImage(Drawable draw);
+	void ReceiveImage(BitmapDrawable draw);
 }

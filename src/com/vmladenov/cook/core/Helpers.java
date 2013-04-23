@@ -66,6 +66,8 @@ public final class Helpers
 	{
 		try
 		{
+            if (!url.startsWith("http://"))
+                url = "http://" + url;
 			URL imageUrl = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
 			conn.setDoInput(true);
@@ -76,6 +78,7 @@ public final class Helpers
 
 		} catch (IOException e)
 		{
+            e.printStackTrace();
 		}
 		return null;
 	}

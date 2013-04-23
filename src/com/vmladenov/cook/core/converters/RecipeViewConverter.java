@@ -34,8 +34,12 @@ public class RecipeViewConverter implements ICursorConverter<Recipe> {
 		recipe.setTitle(cursor.getString(3));
 		recipe.setProducts(cursor.getString(4));
 		recipe.setDescription(cursor.getString(5));
-		recipe.setIsFavorite(cursor.getInt(6) > 0);
-		recipe.setUserNotes(cursor.getString(7));
+		recipe.setPrepareTime(cursor.getString(6));
+        recipe.setCookTime(cursor.getString(7));
+        recipe.setPortions(cursor.getString(8));
+        recipe.setIsFavorite(cursor.getInt(9) > 0);
+		recipe.setUserNotes(cursor.getString(10));
+
 		return recipe;
 	}
 }

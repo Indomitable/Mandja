@@ -22,13 +22,15 @@
 package com.vmladenov.cook.domain;
 
 public final class Recipe extends BigViewItem {
-	private String products;
 
-	private Boolean isFavorite;
+    private String products;
+    private Boolean isFavorite;
+    private String userNotes;
+    private String portions;
+    private String cookTime;
+    private String prepareTime;
 
-	private String userNotes;
-
-	public String getProducts() {
+    public String getProducts() {
 		return products;
 	}
 
@@ -36,7 +38,7 @@ public final class Recipe extends BigViewItem {
 		this.products = products;
 	}
 
-	public Boolean getIsFavorite() {
+    public Boolean getIsFavorite() {
 		return isFavorite;
 	}
 
@@ -44,7 +46,7 @@ public final class Recipe extends BigViewItem {
 		this.isFavorite = isFavorite;
 	}
 
-	public String getUserNotes() {
+    public String getUserNotes() {
 		return userNotes;
 	}
 
@@ -52,4 +54,27 @@ public final class Recipe extends BigViewItem {
 		this.userNotes = userNotes;
 	}
 
+    public String getPortions() {
+        return portions;
+    }
+
+    public void setPortions(String portions) {
+        this.portions = portions;
+    }
+
+    public String getCookTime() {
+        return cookTime;
+    }
+
+    public void setCookTime(String cookTime) {
+        this.cookTime = cookTime;
+    }
+
+    public String getPrepareTime() {
+        return prepareTime;
+    }
+
+    public void setPrepareTime(String prepareTime) {
+        this.prepareTime = prepareTime;
+    }
 }

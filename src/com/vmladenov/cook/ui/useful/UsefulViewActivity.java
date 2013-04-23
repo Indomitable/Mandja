@@ -25,6 +25,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -52,13 +54,10 @@ public class UsefulViewActivity extends Activity {
 				repository = Helpers.getDataHelper().getAdvicesRepository();
 				break;
 			case 1: // Spice
-				repository = Helpers.getDataHelper().getAdvicesRepository();
+				repository = Helpers.getDataHelper().getSpicesRepository();
 				break;
 			case 2: // Product
-				repository = Helpers.getDataHelper().getAdvicesRepository();
-				break;
-			case 3: // Dictionary
-				repository = Helpers.getDataHelper().getAdvicesRepository();
+				repository = Helpers.getDataHelper().getProductsRepository();
 				break;
 			default:
 				return;
@@ -80,8 +79,10 @@ public class UsefulViewActivity extends Activity {
 			Helpers.setImageFromUrlAsync(new IOnImageDownload() {
 
 				@Override
-				public void ReceiveImage(Drawable draw) {
-					description.setCompoundDrawablesWithIntrinsicBounds(null, draw, null, null);
+				public void ReceiveImage(BitmapDrawable draw) {
+                    Bitmap bitmap = draw.getBitmap();
+                    draw.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
+					description.setCompoundDrawables(null, draw, null, null);
 				}
 			}, this, view.getImageUrl());
 		}

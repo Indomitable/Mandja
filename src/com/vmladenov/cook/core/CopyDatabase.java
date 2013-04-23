@@ -21,36 +21,21 @@
 
 package com.vmladenov.cook.core;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
-import com.vmladenov.cook.R;
-
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class CopyDatabase extends AsyncTask<OutputStream, Void, Integer> {
+public class CopyDatabase extends AsyncTask<OutputStream, Integer, Integer> {
 
-	private ProgressDialog progressDialog;
 	private Context context;
+    private IAsyncTaskNotify notify;
 
 	public CopyDatabase(Context context) {
 		this.context = context;
-		// progressDialog = new ProgressDialog(context);
-		// progressDialog.setMessage(context.getString(R.string.initialize));
-		// progressDialog.setTitle(R.string.loading);
-	}
-
-	@Override
-	protected void onPreExecute() {
-		progressDialog = new ProgressDialog(this.context);
-		progressDialog.setMessage(context.getString(R.string.initialize));
-		progressDialog.setIndeterminate(true);
-		progressDialog.setCancelable(false);
-		progressDialog.show();
+        this.notify = this.context instanceof IAsyncTaskNotify ? (IAsyncTaskNotify)this.context : null;
 	}
 
 	protected Integer doInBackground(OutputStream... outputs) {
@@ -62,21 +47,31 @@ public class CopyDatabase extends AsyncTask<OutputStream, Void, Integer> {
 			ZipEntry zipEntry = zipStream.getNextEntry();
 			if (zipEntry != null)
 			{
-				for (int r = zipStream.read(b); r != -1; r = zipStream.read(b))
+                int i = 1;
+                int count = 3959;
+				for (int r = zipStream.read(b); r != -1; r = zipStream.read(b)) {
 					out.write(b, 0, r);
+                    publishProgress((int) ((i / (float) count) * 100));
+                    i++;
+                }
+                //System.out.write(i);
 				zipStream.closeEntry();
 			}
 			zipStream.close();
 			out.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
+            if (notify != null)
+                notify.onError(e);
 			return -1;
-		}
+        }
+        if (notify != null)
+            notify.onFinish();
 		return 0;
 	}
 
-	@Override
-	protected void onPostExecute(Integer result) {
-		progressDialog.dismiss();
-	}
-
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        if (notify != null)
+            notify.onProgress(values[0]);
+    }
 }

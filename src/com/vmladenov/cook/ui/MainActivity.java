@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -57,7 +58,13 @@ public final class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		Helpers.getDataHelper().checkDb(MainActivity.this);
+        Helpers.getDataHelper().initUserDb(MainActivity.this);
+		if (!Helpers.getDataHelper().checkDb(MainActivity.this)){
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, CopyDatabaseActivity.class);
+            startActivity(intent);
+            return;
+        }
 
 		MainActivityState state = (MainActivityState) getLastNonConfigurationInstance();
 		if (state == null || state.recipe == null)
@@ -102,7 +109,7 @@ public final class MainActivity extends Activity
 			{
 
 				@Override
-				public void ReceiveImage(Drawable draw)
+				public void ReceiveImage(BitmapDrawable draw)
 				{
 					txtRecipeContent.setCompoundDrawablesWithIntrinsicBounds(draw, null, null, null);
 				}

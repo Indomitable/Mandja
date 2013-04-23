@@ -137,7 +137,7 @@ public class NewShoppingListActivity extends ListActivity implements
 					this);
 			alertDialogBuilder.setTitle(R.string.information);
 			alertDialogBuilder.setMessage(R.string.enterProducts);
-			alertDialogBuilder.setIcon(R.drawable.information_icon);
+			alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_info);
 			alertDialogBuilder.setPositiveButton(R.string.ok,
 					new OnClickListener() {
 

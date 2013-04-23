@@ -31,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static String getDbName(Context context) {
 		String state = Environment.getExternalStorageState();
-		if (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
 			return context.getExternalFilesDir(null) + "/" + DATABASE_NAME;
 		}
 		return context.getFilesDir() + "/" + DATABASE_NAME;

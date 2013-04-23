@@ -27,6 +27,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,7 +46,6 @@ import com.vmladenov.cook.core.db.RecipesRepository;
 import com.vmladenov.cook.domain.Recipe;
 
 public final class ViewRecipeActivity extends Activity implements OnSlideListener {
-	static ProgressDialog progressDialog = null;
 	Recipe recipe = null;
 	private SlideGestureDetector detector;
 	private ViewFlipper flipper;
@@ -73,16 +73,9 @@ public final class ViewRecipeActivity extends Activity implements OnSlideListene
 		loadRecipe(id);
 	}
 
-	static Handler loadRecipeHandler = new Handler() {
-		public void handleMessage(android.os.Message msg) {
-			if (progressDialog != null)
-				progressDialog.dismiss();
-		}
-    };
+	static Handler loadRecipeHandler = new Handler();
 
 	private void loadRecipe(final int id) {
-		progressDialog = ProgressDialog.show(ViewRecipeActivity.this, getString(R.string.loadingRecipe), getString(R.string.loading), false);
-
 		Thread readRecipeThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -94,7 +87,6 @@ public final class ViewRecipeActivity extends Activity implements OnSlideListene
 						showRecipe();
 					}
 				});
-				loadRecipeHandler.sendEmptyMessage(0);
 			}
 		});
 		readRecipeThread.start();
@@ -119,17 +111,36 @@ public final class ViewRecipeActivity extends Activity implements OnSlideListene
 		TextView title = (TextView) findViewById(R.id.txtRecipeTitle);
 		TextView products = (TextView) findViewById(R.id.txtRecipeProducts);
 		TextView description = (TextView) findViewById(R.id.txtRecipeDescription);
+        TextView prepareTime = (TextView) findViewById(R.id.txtPrepareTime);
+        TextView cookTime = (TextView) findViewById(R.id.txtCookTime);
+        TextView portions = (TextView) findViewById(R.id.txtPortions);
 		final ImageView image = (ImageView) findViewById(R.id.imgRecipePicture);
 
 		title.setText(recipe.getTitle());
 		products.setText(recipe.getProducts());
 		description.setText(recipe.getDescription());
+
+        if (!recipe.getPrepareTime().isEmpty()){
+            prepareTime.setText(getString(R.string.prepare_time) + " " + recipe.getPrepareTime());
+            prepareTime.setVisibility(View.VISIBLE);
+        }
+
+        if (!recipe.getCookTime().isEmpty()){
+            cookTime.setText(getString(R.string.cook_time) + " " + recipe.getCookTime());
+            cookTime.setVisibility(View.VISIBLE);
+        }
+
+        if (!recipe.getPortions().isEmpty()){
+            portions.setText(getString(R.string.portions) + " " + recipe.getPortions());
+            portions.setVisibility(View.VISIBLE);
+        }
+
 		SharedPreferences preferences = this.getSharedPreferences("MandjaSettings", Context.MODE_PRIVATE);
 		boolean downloadBigImages = preferences.getBoolean("DownloadBigImages", true);
 		if (downloadBigImages) {
 			Helpers.setImageFromUrlAsync(new IOnImageDownload() {
 				@Override
-				public void ReceiveImage(Drawable draw) {
+				public void ReceiveImage(BitmapDrawable draw) {
 					image.setImageDrawable(draw);
 				}
 			}, this, recipe.getImageUrl());

@@ -17,3 +17,6 @@ local.properties
 
 #Eclipse prefs
 .settings/
+
+#Idea Project
+.idea/

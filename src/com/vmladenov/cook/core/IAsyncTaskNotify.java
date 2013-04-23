@@ -21,6 +21,10 @@
 
 package com.vmladenov.cook.core;
 
-public interface OnProgressUpdateListener {
-    void updateProgress(int progress);
+public interface IAsyncTaskNotify {
+    void onFinish();
+
+    void onError(Exception ex);
+
+    void onProgress(int value);
 }

@@ -74,6 +74,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+        <activity android:name=".ui.CopyDatabaseActivity"/>
         <provider android:name=".ui.useful.UsefulSearchProvicer" android:permission="com.vmladenov.com.COOK_WITH_ME"
 			android:authorities="com.vmladenov.cook.ui.useful.UsefulSearchProvicer"/>
 	</application>
