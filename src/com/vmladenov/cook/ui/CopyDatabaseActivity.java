@@ -24,13 +24,16 @@ package com.vmladenov.cook.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.vmladenov.cook.R;
 import com.vmladenov.cook.core.CopyDatabase;
 import com.vmladenov.cook.core.Helpers;
 import com.vmladenov.cook.core.IAsyncTaskNotify;
+import com.vmladenov.cook.core.db.DataHelper;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
@@ -42,14 +45,24 @@ public class CopyDatabaseActivity extends Activity implements IAsyncTaskNotify {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.copy_database);
+
         this.progress = (ProgressBar)this.findViewById(R.id.progress_copy_db);
         this.textView = (TextView)this.findViewById(R.id.txt_copy_db);
+
+        if (DataHelper.getStorageState(this) == DataHelper.StorageState.None) {
+            this.textView.setText("Unable to create database!\nCheck data storage!.");
+            return;
+        }
+
         String dbPath = Helpers.getDataHelper().getDbPathForCopy(this);
         copyDatabase(dbPath);
     }
 
     private void copyDatabase(String path) {
         try {
+            File file = new File(path);
+            if (file.exists())
+                file.delete();
             CopyDatabase copy = new CopyDatabase(this);
             copy.execute(new FileOutputStream(path));
         } catch (FileNotFoundException e) {

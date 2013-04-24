@@ -24,14 +24,11 @@ package com.vmladenov.cook.core.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
-import com.vmladenov.cook.core.BooleanValue;
-import com.vmladenov.cook.core.CopyDatabase;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
-import java.util.concurrent.ExecutionException;
 
 public class DataHelper {
 	private static final String DATABASE_NAME = "cook.db";
@@ -49,37 +46,99 @@ public class DataHelper {
 
     public boolean checkDb(Context context){
         this.dbPath = getDbPath(context);
-        if (dbPath.equals(""))
+        if (dbPath.isEmpty())
             return false;
         return checkDbVersion(dbPath);
     }
 
-    private String getDbPath(Context context) {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            String dbPath = context.getExternalFilesDir(null) + "/" + DATABASE_NAME;
-            File file = new File(dbPath);
-            if (!file.exists())
-                return "";
-            return dbPath;
-        } else {
-            String filePath = context.getFilesDir() + "/" + DATABASE_NAME;
-            File file = new File(filePath);
-            if (!file.exists())
-                return "";
-            return file.getAbsolutePath();
+    private  static boolean tryCreateFile(String path) {
+        try {
+            File file = new File(path + "/dummy");
+            if (file.exists())
+                file.delete();
+            OutputStream out = new FileOutputStream(file);
+            out.write(45);
+            out.write(54);
+            out.close();
+            return true;
+        } catch (IOException e) {
+            return false;
         }
     }
 
+    public enum StorageState {
+        ExternalStorage,
+        InternalStorage,
+        None
+    }
+
+    private static boolean checkExternalStorage(Context context){
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            File storage = context.getExternalFilesDir(null);
+            if (storage.getFreeSpace() > 11 * 1024 * 1024) {
+                if (tryCreateFile(storage.getAbsolutePath())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean checkInternalStorage(Context context) {
+        File storage = context.getFilesDir();
+        if (storage.getFreeSpace() > 11 * 1024 * 1024) {
+            if (tryCreateFile(storage.getAbsolutePath())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static StorageState getStorageState(Context context) {
+        if (!checkExternalStorage(context)) {
+            if (!checkInternalStorage(context)) {
+                return StorageState.None;
+            } else {
+                return StorageState.InternalStorage;
+            }
+        } else {
+            return StorageState.ExternalStorage;
+        }
+    }
+
+    private String getDbPath(Context context) {
+        StorageState storageState = getStorageState(context);
+        String path = "";
+        switch (storageState)
+        {
+            case ExternalStorage:
+                path = context.getExternalFilesDir(null).getAbsolutePath() + "/" + DATABASE_NAME;
+                break;
+            case InternalStorage:
+                path = context.getFilesDir().getAbsolutePath() + "/" + DATABASE_NAME;
+                break;
+        }
+        if (path.isEmpty())
+            return path;
+        File file = new File(path);
+        if (file.exists())
+            return file.getAbsolutePath();
+        else
+            return "";
+    }
+
 	public String getDbPathForCopy(Context context) {
-		String state = Environment.getExternalStorageState();
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-			return context.getExternalFilesDir(null) + "/" + DATABASE_NAME;
-		} else {
-			String filePath = context.getFilesDir() + "/" + DATABASE_NAME;
-			File file = new File(filePath);
-			return file.getAbsolutePath();
-		}
+        StorageState storageState = getStorageState(context);
+        switch (storageState)
+        {
+            case ExternalStorage:
+                return context.getExternalFilesDir(null).getAbsolutePath() + "/" + DATABASE_NAME;
+            case InternalStorage:
+                return context.getFilesDir().getAbsolutePath() + "/" + DATABASE_NAME;
+            default:
+                return "";
+        }
 	}
 
 	private Boolean checkDbVersion(String dbPath) {
