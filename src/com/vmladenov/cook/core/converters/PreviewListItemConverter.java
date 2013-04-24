@@ -25,6 +25,7 @@ import android.database.Cursor;
 import com.vmladenov.cook.domain.PreviewListItem;
 
 public class PreviewListItemConverter implements ICursorConverter<PreviewListItem> {
+
     public PreviewListItemConverter() {
     }
 

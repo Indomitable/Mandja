@@ -14,6 +14,6 @@
         android:id="@+id/miSearch"
         android:title="@string/search"
         android:visible="true"
-        android:icon="@drawable/search">
+        android:icon="@android:drawable/ic_menu_search">
     </item>
 </menu>

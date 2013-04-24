@@ -50,11 +50,7 @@ public abstract class SimpleLinkListActivity<T> extends ListActivity {
     };
 
 	protected void LoadData() {
-		progressDialog = ProgressDialog.show(this, getString(R.string.loading),
-				getString(R.string.loading), false);
-
 		Thread readThread = new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				final ArrayList<T> data = getData();
@@ -69,6 +65,8 @@ public abstract class SimpleLinkListActivity<T> extends ListActivity {
 			}
 		});
 		readThread.start();
+        progressDialog = ProgressDialog.show(this, getString(R.string.loading),
+                getString(R.string.loading), false);
 	}
 
 	private void ShowData(ArrayList<T> data) {

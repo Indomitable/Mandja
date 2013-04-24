@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.vmladenov.cook.R;
 import com.vmladenov.cook.core.Helpers;
@@ -101,17 +102,39 @@ public final class MainActivity extends Activity
 			return;
 
 		final TextView txtRecipeContent = (TextView) findViewById(R.id.txtRecipeContent);
-		txtRecipeContent.setText(recipe.getTitle());
+        StringBuilder builder = new StringBuilder();
+        builder.append(recipe.getTitle());
+        if (!recipe.getPrepareTime().isEmpty()) {
+            builder.append("\n");
+            builder.append(getText(R.string.prepare_time) + " " + recipe.getPrepareTime());
+        }
+        if (!recipe.getCookTime().isEmpty()) {
+            builder.append("\n");
+            builder.append(getText(R.string.cook_time) + " " + recipe.getCookTime());
+        }
+        if (!recipe.getPortions().isEmpty()) {
+            builder.append("\n");
+            builder.append(getText(R.string.portions) + " " + recipe.getPortions());
+        }
+        builder.append("\n");
+        builder.append(getText(R.string.products) + ":");
+        builder.append("\n");
+        builder.append(recipe.getProducts());
+		txtRecipeContent.setText(builder.toString());
 		SharedPreferences preferences = this.getSharedPreferences("MandjaSettings", Context.MODE_PRIVATE);
 		boolean downloadBigImages = preferences.getBoolean("DownloadBigImages", true);
 		if (downloadBigImages) {
 			Helpers.setImageFromUrlAsync(new IOnImageDownload()
 			{
-
 				@Override
 				public void ReceiveImage(BitmapDrawable draw)
 				{
-					txtRecipeContent.setCompoundDrawablesWithIntrinsicBounds(draw, null, null, null);
+                    ImageView img = (ImageView)findViewById(R.id.imgRecipeOfTheDay);
+                    if (img == null) {
+                        txtRecipeContent.setCompoundDrawablesWithIntrinsicBounds(draw, null, null, null);
+                    } else {
+                        img.setImageDrawable(draw);
+                    }
 				}
 			}, this, recipe.getImageUrl());
 		}

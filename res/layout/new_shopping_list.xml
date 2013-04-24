@@ -24,7 +24,7 @@
 		    android:layout_height="wrap_content"
 		    android:contentDescription="@string/add"
 		    android:onClick="onAddItemSearch"
-		    android:src="@drawable/add" >
+		    android:src="@drawable/search_add" >
 </ImageView>
 	</LinearLayout>
 

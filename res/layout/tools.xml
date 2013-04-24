@@ -3,13 +3,13 @@
 	android:layout_width="match_parent" android:layout_height="match_parent"
 	android:orientation="vertical" android:background="#fff0f0f0">
 	<Button android:text="@string/search" android:onClick="onSearchClick"
-		android:layout_height="wrap_content" android:drawableLeft="@drawable/search"
-		android:layout_width="fill_parent" android:layout_marginTop="5dip"></Button>
-	<Button android:layout_marginTop="5dip" android:layout_height="wrap_content"
+		android:layout_height="fill_parent" android:drawableLeft="@android:drawable/ic_menu_search"
+		android:layout_width="fill_parent" android:layout_marginTop="5dip" android:layout_weight="1"></Button>
+	<Button android:layout_marginTop="5dip" android:layout_height="fill_parent"
 		android:layout_width="fill_parent" android:drawableLeft="@drawable/list"
-		android:text="@string/shoppingList" android:onClick="onShoppingListClick"></Button>
+		android:text="@string/shoppingList" android:onClick="onShoppingListClick" android:layout_weight="1"></Button>
 	<Button android:layout_width="fill_parent"
 		android:layout_marginTop="5dip" android:text="@string/coockingTimer"
-		android:onClick="onTimerClick" android:layout_height="wrap_content"
-		android:drawableLeft="@drawable/clock"></Button>
+		android:onClick="onTimerClick" android:layout_height="fill_parent"
+		android:drawableLeft="@drawable/clock" android:layout_weight="1"></Button>
 </LinearLayout>

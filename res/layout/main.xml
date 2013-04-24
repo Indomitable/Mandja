@@ -157,13 +157,23 @@
             android:textStyle="bold" >
         </TextView>
 
-        <TextView
-            android:id="@+id/txtRecipeContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:textStyle="bold" >
-        </TextView>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/imgRecipeOfTheDay" android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/txtRecipeContent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="top"
+                android:textStyle="bold" android:layout_gravity="top" android:layout_weight="1"
+                android:paddingLeft="5dp">
+            </TextView>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -20,17 +20,17 @@
         <AutoCompleteTextView
             android:layout_height="wrap_content"
             android:id="@+id/txtSearchProduct"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:maxLines="1"
             android:layout_weight="1"
-            android:textColor="@android:color/black"></AutoCompleteTextView>
+            android:textColor="@android:color/black" android:layout_gravity="center_vertical"></AutoCompleteTextView>
 
         <ImageView
             android:layout_height="wrap_content"
             android:id="@+id/imageView1"
             android:src="@drawable/search_add"
             android:layout_width="wrap_content"
-            android:onClick="onAddItemSearch"></ImageView>
+            android:onClick="onAddItemSearch" android:layout_gravity="center_vertical"></ImageView>
     </LinearLayout>
 
     <ListView
