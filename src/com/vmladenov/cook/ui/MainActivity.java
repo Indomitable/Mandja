@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.*;
@@ -51,7 +50,7 @@ import com.vmladenov.cook.ui.useful.SpicesActivity;
 
 public final class MainActivity extends Activity
 {
-	private Boolean loadingRecipeOfTheDay;
+	private Boolean loadingRecipeOfTheDay = false;
 	Recipe recipeOfTheDay = null;
 
 	@Override
@@ -59,6 +58,7 @@ public final class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
         Helpers.getDataHelper().initUserDb(MainActivity.this);
 		if (!Helpers.getDataHelper().checkDb(MainActivity.this)){
             Intent intent = new Intent();

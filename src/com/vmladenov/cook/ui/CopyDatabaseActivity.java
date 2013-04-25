@@ -22,7 +22,10 @@
 package com.vmladenov.cook.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.ProgressBar;
@@ -78,8 +81,45 @@ public class CopyDatabaseActivity extends Activity implements IAsyncTaskNotify {
     }
 
     @Override
-    public void onError(Exception ex) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void onError(final Exception ex) {
+        textView.post(new Runnable() {
+            @Override
+            public void run() {
+                textView.setText("Error while extracting database!\n" + ex.getMessage());
+                AlertDialog.Builder builder = new AlertDialog.Builder(CopyDatabaseActivity.this);
+                builder.setMessage("Error while extracting database!\n" + ex.getMessage() + "\n" + "Next action will send email to the developer with needed information.");
+                builder.setIcon(android.R.drawable.ic_dialog_alert);
+                builder.setPositiveButton("Send Email", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                        emailIntent.setType("plain/text");
+                        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"ventsislav.mladenov@gmail.com"});
+                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Error while extracting database.");
+                        StringBuilder builder = new StringBuilder();
+                        builder.append("Error: " + ex.getMessage());
+                        builder.append("\n");
+                        builder.append("Stacktrace:\n");
+                        for (StackTraceElement stack : ex.getStackTrace()) {
+                            builder.append(stack.toString() + "\n");
+                        }
+                        builder.append("Manufacturer: " + Build.MANUFACTURER + "\n");
+                        builder.append("Model: " + Build.MODEL);
+
+                        emailIntent.putExtra(Intent.EXTRA_TEXT, builder.toString());
+                        startActivity(emailIntent);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                         dialogInterface.cancel();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
     @Override
