@@ -5,7 +5,7 @@
 	<TextView android:layout_height="wrap_content"
 		android:layout_width="match_parent" android:id="@+id/textView1"
 		android:textStyle="bold" android:text="@string/notes"
-		android:layout_gravity="top"  android:textColor="#ff000000"></TextView>
+		android:layout_gravity="top"  android:textColor="#ff000000" android:minWidth="250dp"></TextView>
 	<EditText android:id="@+id/txtEditNote" android:layout_width="match_parent"
 		android:layout_weight="1" android:gravity="top|left" android:layout_height="match_parent" android:paddingTop="10dip" android:paddingBottom="10dip"></EditText>
 	<LinearLayout android:id="@+id/linearLayout1"

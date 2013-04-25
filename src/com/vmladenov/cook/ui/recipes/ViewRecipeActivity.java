@@ -264,22 +264,11 @@ public final class ViewRecipeActivity extends Activity implements OnSlideListene
 		if (recipe == null)
 			return false;
 		MenuItem miFavorite = menu.findItem(R.id.mi_favorite);
-		MenuItem miNotes = menu.findItem(R.id.mi_notes);
-		MenuItem miRate = menu.findItem(R.id.mi_rate);
-		miRate.setVisible(false);
-
 		Boolean isFavorite = recipe.getIsFavorite() == null ? false : recipe.getIsFavorite();
-		Boolean hasNote = !(recipe.getUserNotes() == null || recipe.getUserNotes().isEmpty());
 		if (isFavorite) {
-			miFavorite.setIcon(R.drawable.remove_favorite);
+			miFavorite.setIcon(android.R.drawable.star_big_on);
 		} else {
-			miFavorite.setIcon(R.drawable.add_favorite);
-		}
-
-		if (hasNote) {
-			miNotes.setIcon(R.drawable.notes);
-		} else {
-			miNotes.setIcon(R.drawable.nonotes);
+			miFavorite.setIcon(android.R.drawable.star_big_off);
 		}
 		return true;
 	}

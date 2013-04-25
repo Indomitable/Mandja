@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:icon="@drawable/add_favorite" android:id="@+id/mi_favorite"></item>
-    <item android:icon="@drawable/notes" android:id="@+id/mi_notes"></item>
-    <item android:icon="@drawable/share" android:id="@+id/mi_share"></item>
-    <item android:id="@+id/mi_rate" android:icon="@drawable/favorite"></item>
+    <item android:icon="@android:drawable/star_big_off" android:id="@+id/mi_favorite"></item>
+    <item android:icon="@android:drawable/ic_menu_edit" android:id="@+id/mi_notes"></item>
+    <item android:icon="@android:drawable/ic_menu_share" android:id="@+id/mi_share"></item>
 </menu>
