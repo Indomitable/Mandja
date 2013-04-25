@@ -76,7 +76,7 @@ public class DataHelper {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             File storage = context.getExternalFilesDir(null);
-            if (storage.getFreeSpace() > 11 * 1024 * 1024) {
+            if (storage != null && storage.getFreeSpace() > 11 * 1024 * 1024) {
                 if (tryCreateFile(storage.getAbsolutePath())) {
                     return true;
                 }
@@ -87,7 +87,7 @@ public class DataHelper {
 
     private static boolean checkInternalStorage(Context context) {
         File storage = context.getFilesDir();
-        if (storage.getFreeSpace() > 11 * 1024 * 1024) {
+        if (storage != null && storage.getFreeSpace() > 11 * 1024 * 1024) {
             if (tryCreateFile(storage.getAbsolutePath())) {
                 return true;
             }

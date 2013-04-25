@@ -24,21 +24,12 @@ package com.vmladenov.cook.core.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Environment;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "cook_personal.db";
 
-	private static String getDbName(Context context) {
-		String state = Environment.getExternalStorageState();
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-			return context.getExternalFilesDir(null) + "/" + DATABASE_NAME;
-		}
-		return context.getFilesDir() + "/" + DATABASE_NAME;
-	}
-
 	public DatabaseHelper(Context context) {
-		super(context, getDbName(context), null, 1);
+		super(context, DATABASE_NAME, null, 1);
 	}
 
 	@Override
