@@ -24,12 +24,12 @@ package com.vmladenov.cook.core;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
-import org.tukaani.xz.LZMA2Options;
-import org.tukaani.xz.XZInputStream;
 
 import java.io.OutputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.zip.GZIPInputStream;
+
+//import org.tukaani.xz.LZMA2Options;
+//import org.tukaani.xz.XZInputStream;
 
 public class CopyDatabase extends AsyncTask<OutputStream, Integer, Integer> {
 
@@ -49,33 +49,16 @@ public class CopyDatabase extends AsyncTask<OutputStream, Integer, Integer> {
             byte[] buf = new byte[8192];
             int size = -1;
             int i = 1;
-            int count = 1257;
-            //int count = 2514;
-            XZInputStream xzInputStream = new XZInputStream(am.open("cook_compressed.db"));
-            while ((size = xzInputStream.read(buf)) != -1) {
+            int count = 4170;
+            //XZInputStream xzInputStream = new XZInputStream(am.open("cook_compressed.db"));
+            GZIPInputStream inputStream = new GZIPInputStream(am.open("cook_compressed.db"));
+            while ((size = inputStream.read(buf)) != -1) {
                 out.write(buf, 0, size);
                 publishProgress((int) ((i / (float) count) * 100));
                 i++;
             }
-            xzInputStream.close();
+            inputStream.close();
             out.close();
-
-//			ZipInputStream zipStream = new ZipInputStream(am.open("cook.db.zip"));
-//			ZipEntry zipEntry = zipStream.getNextEntry();
-//			if (zipEntry != null)
-//			{
-//                int i = 1;
-//                int count = 3959;
-//				for (int r = zipStream.read(b); r != -1; r = zipStream.read(b)) {
-//					out.write(b, 0, r);
-//                    publishProgress((int) ((i / (float) count) * 100));
-//                    i++;
-//                }
-//                //System.out.write(i);
-//				zipStream.closeEntry();
-//			}
-//			zipStream.close();
-//            out.close();
 		} catch (Exception e) {
             if (notify != null)
                 notify.onError(e);
